@@ -72,3 +72,31 @@ would generally be inside of the view component itself.
 
   - Live-server
   - Vetur
+
+- [Source code](https://github.com/iamshaunjp/Vue-3-Firebase)
+
+## Chapter 2: Vue Basics
+
+Going to create a VueJS standalone component and inject it to static HTML page.
+
+Install through CDN:
+
+```html
+<script src="https://unpkg.com/vue@3.0.2"></script>
+```
+
+[VueJS documentation](https://v3.vuejs.org/guide/introduction.html)
+
+Creating a Vue App
+
+```html
+<div id="app"></div>
+```
+
+```js
+const app = Vue.createApp({
+  template: '<h2>VueJS Template</h2>',
+});
+
+app.mount('#app');
+```
