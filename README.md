@@ -333,3 +333,40 @@ Class `fav` will be applied if `book.isFav` is `true`
   </li>
 </ul>
 ```
+
+Computed properties
+
+In a nutshell, a computed property is a way to define a data properties inside a component that depends on
+another data on the same component.
+
+E.g.: Define a `filteredBooks` array which depends on the original `books` array.
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      books: [
+        { title: 'Book 1', author: 'Author 1', img: 'assets/1.jpg', isFav = true },
+        { title: 'Book 2', author: 'Author 2', img: 'assets/2.jpg', isFav = false },
+        { title: 'Book 3', author: 'Author 3', img: 'assets/3.jpg', isFav = true },
+      ],
+    };
+  },
+  computed: {
+    filteredBooks() {
+      return this.books.filter(b => b.isFav);
+    }
+  }
+});
+
+app.mount('#app');
+```
+
+```html
+<ul>
+  <li v-for="item in filteredBooks">
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.author }}</p>
+  </li>
+</ul>
+```
