@@ -11,7 +11,22 @@
     <body>
         <h1>Hello VueJS</h1>
 
-        <div id="app"></div>
+        <div id="app">
+            <div v-if="showName">
+                <p>Hello {{ name }}</p>
+            </div>
+
+            <div>
+                <button @click="toggleNameDisplay">
+                    <span v-if="showName">Hide Name</span>
+                    <span v-else>Show Name</span>
+                </button>
+            </div>
+
+            <div v-show="showName">
+                <p>Currently showing name</p>
+            </div>
+        </div>
 
         <script src="app.js"></script>
     </body>

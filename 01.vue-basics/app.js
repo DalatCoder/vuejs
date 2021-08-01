@@ -1,5 +1,15 @@
 const app = Vue.createApp({
-  template: '<h2>VueJS Template</h2>',
+  data() {
+    return {
+      showName: true,
+      name: 'Trong Hieu',
+    }
+  },
+  methods: {
+    toggleNameDisplay() {
+      this.showName = !this.showName
+    },
+  },
 })
 
 app.mount('#app')

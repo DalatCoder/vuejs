@@ -182,3 +182,45 @@ const app = Vue.createApp({
 
 app.mount('#app');
 ```
+
+Conditional redering
+
+```html
+<div id="app">
+  <div v-if="showName">
+    <p>Hello {{ name }}</p>
+  </div>
+
+  <div>
+    <button @click="toggleNameDisplay">
+      <span v-if="showName">Hide Name</span>
+      <span v-else>Show Name</span>
+    </button>
+  </div>
+
+  <div v-show="showName">
+    <p>Currently showing name</p>
+  </div>
+</div>
+```
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      showName: true,
+      name: 'Trong Hieu',
+    };
+  },
+  methods: {
+    toggleNameDisplay() {
+      this.showName = !this.showName;
+    },
+  },
+});
+
+app.mount('#app');
+```
+
+- `v-if`: If `false`, then remove completely the element from the DOM. And inject them into the DOM again when `true`
+- `v-show`: Using `CSS` to show and hide element. `display: block` when showing, and `display: none` when hiding
