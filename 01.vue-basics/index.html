@@ -6,6 +6,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Hello VueJS</title>
 
+        <style>
+            .box {
+                padding: 100px 0;
+                display: inline-block;
+                margin: 10px;
+                width: 300px;
+                text-align: center;
+                background-color: #fff;
+                box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
+                cursor: pointer;
+                user-select: none;
+            }
+        </style>
+
         <script src="https://unpkg.com/vue@3.0.2"></script>
     </head>
     <body>
@@ -25,6 +40,14 @@
 
             <div v-show="showName">
                 <p>Currently showing name</p>
+            </div>
+
+            <!-- Mouse events -->
+            <div class="box" @mouseover="handleEvent">Mouseover (Enter)</div>
+            <div class="box" @mouseout="handleEvent">Mouseout</div>
+            <div class="box" @dblclick="handleEvent">Double click</div>
+            <div class="box" @mousemove="handleMousemove">
+                Mouse move {{ x }} - {{ y }}
             </div>
         </div>
 
