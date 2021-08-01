@@ -82,7 +82,7 @@ Going to create a VueJS standalone component and inject it to static HTML page.
 Install through CDN:
 
 ```html
-<script src="https://unpkg.com/vue@3.0.2"></script>
+< src="https://unpkg.com/vue@3.0.2"></script>
 ```
 
 [VueJS documentation](https://v3.vuejs.org/guide/introduction.html)
@@ -246,6 +246,58 @@ app.mount('#app');
 ```html
 <ul>
   <li v-for="item in books">
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.author }}</p>
+  </li>
+</ul>
+```
+
+Attributes binding
+
+Bind dynamic value to HTML attribute.
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      url: 'https://dalatcoder.com',
+    };
+  },
+});
+
+app.mount('#app');
+```
+
+```html
+<div>
+  <a v-bind:href="url">Binding link</a>
+</div>
+<!-- The same at -->
+<div>
+  <a :href="url">Binding link</a>
+</div>
+```
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      books: [
+        { title: 'Book 1', author: 'Author 1', img: 'assets/1.jpg' },
+        { title: 'Book 2', author: 'Author 2', img: 'assets/2.jpg' },
+        { title: 'Book 3', author: 'Author 3', img: 'assets/3.jpg' },
+      ],
+    };
+  },
+});
+
+app.mount('#app');
+```
+
+```html
+<ul>
+  <li v-for="item in books">
+    <img :src="item.img" :alt="item.title" />
     <h3>{{ item.title }}</h3>
     <p>{{ item.author }}</p>
   </li>
