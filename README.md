@@ -224,3 +224,30 @@ app.mount('#app');
 
 - `v-if`: If `false`, then remove completely the element from the DOM. And inject them into the DOM again when `true`
 - `v-show`: Using `CSS` to show and hide element. `display: block` when showing, and `display: none` when hiding
+
+Outputing a list
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      books: [
+        { title: 'Book 1', author: 'Author 1' },
+        { title: 'Book 2', author: 'Author 2' },
+        { title: 'Book 3', author: 'Author 3' },
+      ],
+    };
+  },
+});
+
+app.mount('#app');
+```
+
+```html
+<ul>
+  <li v-for="item in books">
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.author }}</p>
+  </li>
+</ul>
+```
