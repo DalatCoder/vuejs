@@ -303,3 +303,33 @@ app.mount('#app');
   </li>
 </ul>
 ```
+
+Dynamic classes
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      books: [
+        { title: 'Book 1', author: 'Author 1', img: 'assets/1.jpg', isFav = true },
+        { title: 'Book 2', author: 'Author 2', img: 'assets/2.jpg', isFav = false },
+        { title: 'Book 3', author: 'Author 3', img: 'assets/3.jpg', isFav = true },
+      ],
+    };
+  },
+});
+
+app.mount('#app');
+```
+
+Class `fav` will be applied if `book.isFav` is `true`
+
+```html
+<ul>
+  <li v-for="item in books" :class="{ fav: book.isFav }">
+    <img :src="item.img" :alt="item.title" />
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.author }}</p>
+  </li>
+</ul>
+```
