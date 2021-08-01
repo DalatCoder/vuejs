@@ -100,3 +100,85 @@ const app = Vue.createApp({
 
 app.mount('#app');
 ```
+
+Render dynamic data
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      name: 'Trong Hieu',
+    };
+  },
+});
+
+app.mount('#app');
+```
+
+```html
+<div id="app">Hello {{ name }}</div>
+```
+
+Methods and Click events
+
+Using `v-on:[event]` directly on root template
+
+```html
+<div id="app">Hello {{ name }}</div>
+<button v-on:click="name = 'Thi Ha'">Change name</button>
+```
+
+Using `@` symbol
+
+```html
+<div id="app">Hello {{ name }}</div>
+<button @click="name = 'Thi Ha'">Change name</button>
+```
+
+Using a method
+
+```html
+<div id="app">Hello {{ name }}</div>
+<button @click="changeName">Change name</button>
+```
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      name: 'Trong Hieu',
+    };
+  },
+  methods: {
+    changeName() {
+      this.name = 'Thi Ha';
+    },
+  },
+});
+
+app.mount('#app');
+```
+
+Using a method with some given `args`
+
+```html
+<div id="app">Hello {{ name }}</div>
+<button @click="changeName('Thi Ha')">Change name</button>
+```
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      name: 'Trong Hieu',
+    };
+  },
+  methods: {
+    changeName(name) {
+      this.name = name;
+    },
+  },
+});
+
+app.mount('#app');
+```
