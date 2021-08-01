@@ -6,61 +6,103 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Hello VueJS</title>
 
-        <style>
-            .box {
-                padding: 100px 0;
-                display: inline-block;
-                margin: 10px;
-                width: 300px;
-                text-align: center;
-                background-color: #fff;
-                box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
-                border-radius: 10px;
-                cursor: pointer;
-                user-select: none;
-            }
-        </style>
-
+        <link
+            href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
         <script src="https://unpkg.com/vue@3.0.2"></script>
     </head>
-    <body>
-        <h1>Hello VueJS</h1>
 
-        <div id="app">
-            <div v-if="showName">
-                <p>Hello {{ name }}</p>
-            </div>
+    <body class="font-body bg-gray-100">
+        <div id="app" class="container ml-auto mr-auto">
+            <h1 class="text-3xl text-center mt-3 mb-5 text-blue-500">
+                {{ websiteTitle }}
+            </h1>
 
-            <div>
-                <button @click="toggleNameDisplay">
-                    <span v-if="showName">Hide Name</span>
-                    <span v-else>Show Name</span>
-                </button>
-            </div>
-
-            <div v-show="showName">
-                <p>Currently showing name</p>
-            </div>
-
-            <!-- Mouse events -->
-            <div class="box" @mouseover="handleEvent">Mouseover (Enter)</div>
-            <div class="box" @mouseout="handleEvent">Mouseout</div>
-            <div class="box" @dblclick="handleEvent">Double click</div>
-            <div class="box" @mousemove="handleMousemove">
-                Mouse move {{ x }} - {{ y }}
-            </div>
-
-            <!-- Outputing list -->
-            <div>
-                <ul>
-                    <li v-for="item in books">
-                        <h3>{{ item.title }}</h3>
-                        <p>{{ item.author }}</p>
+            <div class="my-7 md:w-10/12 ml-auto mr-auto px-7">
+                <ul class="flex">
+                    <li
+                        v-for="menu in menus"
+                        @click="handleMenuClick(menu)"
+                        :class="{
+                            'px-10': true,
+                            'py-3': true,
+                            'cursor-pointer': true,
+                            'transition-all': true,
+                            'bg-white': true,
+                            'bg-pink-300': menu.isSelected,
+                            'hover:bg-pink-300': true,
+                            'hover:text-white': true
+                        }
+                        "
+                    >
+                        {{ menu.title }}
                     </li>
                 </ul>
             </div>
-        </div>
 
-        <script src="app.js"></script>
+            <div
+                class="
+                    md:w-10/12
+                    grid
+                    sm:grid-cols-2
+                    md:grid-cols-2
+                    lg:grid-cols-3
+                    xl:grid-cols-4
+                    justify-items-center
+                    gap-4
+                    ml-auto
+                    mr-auto
+                "
+            >
+                <div
+                    v-for="book in prepareData"
+                    class="
+                        book
+                        w-56
+                        bg-white
+                        relative
+                        rounded-xl
+                        shadow-md
+                        hover:shadow-xl
+                        transition-all
+                        overflow-hidden
+                    "
+                >
+                    <span class="absolute top-2 right-2 cursor-pointer">
+                        <span @click="toggleBookFav(book)">
+                            <i
+                                v-if="book.isFav"
+                                class="fas fa-heart text-pink-300 text-2xl"
+                            ></i>
+                            <i
+                                v-else
+                                class="far fa-heart text-pink-300 text-2xl"
+                            ></i>
+                        </span>
+                    </span>
+                    <img
+                        :src="book.img"
+                        :alt="book.title"
+                        class="max-h-56 ml-auto mr-auto"
+                    />
+                    <div class="pb-5 px-3 pt-3">
+                        <h2 class="text-sm" :title="book.title">
+                            {{ book.title }}
+                        </h2>
+                        <p class="text-xs mt-2">{{ book.price }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <script src="app.js"></script>
+        </div>
     </body>
 </html>
