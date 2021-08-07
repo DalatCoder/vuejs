@@ -370,3 +370,92 @@ app.mount('#app');
   </li>
 </ul>
 ```
+
+## Chapter 3: The Vue CLI (for bigger projects)
+
+- Use modern JavaScript features
+- Provides us with a live-reload dev server
+- Optimize our code for production
+
+Environments
+
+- `node -v`: 14.1.0
+- `npm i @vue/cli`
+
+Create new project
+
+- `vue create modal-project`
+
+Project Structure
+
+- `public`: Contain initial `index.html`
+- `src`: Contain all `components`, `templates` and `css`
+
+  - `main.js`: Kick start the whole application
+
+  ```js
+  import { createApp } from 'vue';
+  import App from './App.vue';
+
+  createApp(App).mount('#app');
+  ```
+
+Every `vue` file represents a single view component.
+
+Every component contains three different parts
+
+- `<template>`: Contain `HTML` template
+- `<script>`: Export the component object
+- `<style>`: Any styles applied to the template
+
+Every component must at least have one template.
+
+```js
+import HelloWorld from './components/HelloWorld.vue';
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld,
+  },
+};
+```
+
+Import `HelloWorld` component into `root` component.
+
+Change it to look the same as the previous example
+
+```vue
+<template>
+  <h1>{{ title }}</h1>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      title: 'My First Vue App :)',
+    };
+  },
+};
+</script>
+```
+
+Default `<style>` apply to global scope
+
+```vue
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
+
+When the application running, all `html` in the `tempate` will be injected into the `#app` selector.
+All `css` in `style` will be inject at the head of the document.
