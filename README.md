@@ -651,27 +651,23 @@ In child component
 
 ```vue
 <template>
-    <div class="backdrop" @click="closeModal">
-        <div class="modal" :class="{ sale: theme === 'sale' }">
-            <h1>{{ header }}</h1>
-            <p>{{ text }}</p>
-        </div>
+  <div class="backdrop" @click="closeModal">
+    <div class="modal" :class="{ sale: theme === 'sale' }">
+      <h1>{{ header }}</h1>
+      <p>{{ text }}</p>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    props: [
-        'header',
-        'text',
-        'theme'
-    ],
-    methods: {
-        closeModal() {
-            this.$emit('closeModal')
-        }
-    }
-}
+  props: ['header', 'text', 'theme'],
+  methods: {
+    closeModal() {
+      this.$emit('closeModal');
+    },
+  },
+};
 </script>
 ```
 
@@ -682,9 +678,31 @@ In parent component
   <h1>{{ title }}</h1>
 
   <div v-if="showModal">
-    <Modal :header="header" :text="text" :theme="theme" @closeModal="toggleModal" />
+    <Modal
+      :header="header"
+      :text="text"
+      :theme="theme"
+      @closeModal="toggleModal"
+    />
   </div>
 
   <button @click="toggleModal">Open Modal</button>
+</template>
+```
+
+### 3.8. Click Events Modifier
+
+Attach a modifier to a click event to change their behavior.
+
+E.g.: We only close the modal if the user click on the `backdrop`, not the `modal` itseft.
+
+```vue
+<template>
+  <div class="backdrop" @click.self="closeModal">
+    <div class="modal" :class="{ sale: theme === 'sale' }">
+      <h1>{{ header }}</h1>
+      <p>{{ text }}</p>
+    </div>
+  </div>
 </template>
 ```
