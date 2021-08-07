@@ -1,5 +1,6 @@
-  <template>
-  <Modal />
+<template>
+  <h1>{{ title }}</h1>
+  <Modal :header="header" :text="text" :theme="theme" />
 </template>
 
 <script>
@@ -10,11 +11,12 @@ export default {
   components: {
     Modal
   },
-  methods: {
-    handleClick() {
-      console.log(this.$refs.username)
-      this.$refs.username.classList.add('active')
-      this.$refs.username.focus()
+  data() {
+    return {
+      title: 'My First Vue App!',
+      header: 'Sign up for the Giveaway!',
+      text: 'Grab your ninja swag for half price!',
+      theme: 'sale'
     }
   }
 }

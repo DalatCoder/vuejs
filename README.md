@@ -557,3 +557,87 @@ Using `css` file and import it into `main.js`
 ```js
 import './assets/global.css';
 ```
+
+### 3.6. Passing data with `props`
+
+Pass `props` from `parent` component to `children` components.
+
+Main reasons to use this:
+
+- Make components more reuseable
+- Make data central, we only have define the data in one central place. Have a `single source of truth`
+
+In the parent component
+
+```vue
+<template>
+  <Modal header="Sign up for the Giveaway!" text="Hello world" />
+</template>
+```
+
+In the child component
+
+```vue
+<template>
+  <div class="backdrop">
+    <div class="modal">
+      <h1>{{ header }}</h1>
+      <p>{{ text }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: ['header', 'text'],
+};
+</script>
+```
+
+Pass `props` with other data types using `data binding`
+
+In the parent component
+
+```vue
+<template>
+  <h1>{{ title }}</h1>
+  <Modal :header="header" :text="text" />
+</template>
+
+<script>
+import Modal from './components/Modal.vue';
+
+export default {
+  name: 'App',
+  components: {
+    Modal,
+  },
+  data() {
+    return {
+      title: 'My First Vue App!',
+      header: 'Sign up for the Giveaway!',
+      text: 'Grab your ninja swag for half price!',
+    };
+  },
+};
+</script>
+```
+
+In the child component
+
+```vue
+<template>
+  <div class="backdrop">
+    <div class="modal">
+      <h1>{{ header }}</h1>
+      <p>{{ text }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: ['header', 'data'],
+};
+</script>
+```
