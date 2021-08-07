@@ -377,7 +377,7 @@ app.mount('#app');
 - Provides us with a live-reload dev server
 - Optimize our code for production
 
-Environments
+### 3.1. Environments
 
 - `node -v`: 14.1.0
 - `npm i @vue/cli`
@@ -386,7 +386,7 @@ Create new project
 
 - `vue create modal-project`
 
-Project Structure
+### 3.2. Project Structure
 
 - `public`: Contain initial `index.html`
 - `src`: Contain all `components`, `templates` and `css`
@@ -408,7 +408,7 @@ Every component contains three different parts
 - `<script>`: Export the component object
 - `<style>`: Any styles applied to the template
 
-Every component must at least have one template.
+**Every component must at least have one template.**
 
 ```js
 import HelloWorld from './components/HelloWorld.vue';
@@ -442,7 +442,7 @@ export default {
 </script>
 ```
 
-Default `<style>` apply to global scope
+Default `<style>` apply to **global scope**
 
 ```vue
 <style>
@@ -460,7 +460,7 @@ Default `<style>` apply to global scope
 When the application running, all `html` in the `tempate` will be injected into the `#app` selector.
 All `css` in `style` will be inject at the head of the document.
 
-Template refs
+### 3.3. Template refs
 
 Template refs allow us to store a reference to a DOM elemts inside a variable.
 Then when we have that reference, we can use regular JavaScript methods and
@@ -484,4 +484,46 @@ export default {
   },
 };
 </script>
+```
+
+### 3.4. Multiple Components
+
+Make code useable and modular
+
+Multiple Components
+![Multiple Components](assets/multiple_components.png)
+
+Parent component and its children
+![Parent And Children](assets/parent_and_child.png)
+
+Component tree
+![Component Tree](assets/component_tree.png)
+
+Create new component
+
+- Create new file with `PascalCase` invention and placed that file inside `components` directory.
+- Create a `template` and put `html` in here
+- Import that component into the root component at `App.vue`
+
+  ```js
+  import Modal from './components/Modal.vue';
+  ```
+
+- Register new component
+
+  ```js
+  export default {
+    name: 'App',
+    components: {
+      Modal,
+    },
+  };
+  ```
+
+- Using these new component
+
+```vue
+<template>
+  <Modal />
+</template>
 ```

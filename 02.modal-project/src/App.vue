@@ -1,17 +1,14 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <input type="text" ref="username">
-  <button @click="handleClick">Click me</button>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <template>
+  <Modal />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Modal from './components/Modal.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Modal
   },
   methods: {
     handleClick() {
@@ -24,6 +21,12 @@ export default {
 </script>
 
 <style>
+*, *::before, *::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
