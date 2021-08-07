@@ -459,3 +459,29 @@ Default `<style>` apply to global scope
 
 When the application running, all `html` in the `tempate` will be injected into the `#app` selector.
 All `css` in `style` will be inject at the head of the document.
+
+Template refs
+
+Template refs allow us to store a reference to a DOM elemts inside a variable.
+Then when we have that reference, we can use regular JavaScript methods and
+properties on it to do things like changes classes, text content, styles,...
+
+```vue
+<template>
+  <input type="text" ref="username" />
+  <button @click="handleClick">Click me</button>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  methods: {
+    handleClick() {
+      console.log(this.$refs.username);
+      this.$refs.username.classList.add('active');
+      this.$refs.username.focus();
+    },
+  },
+};
+</script>
+```

@@ -1,5 +1,7 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
+  <input type="text" ref="username">
+  <button @click="handleClick">Click me</button>
   <HelloWorld msg="Welcome to Your Vue.js App"/>
 </template>
 
@@ -10,6 +12,13 @@ export default {
   name: 'App',
   components: {
     HelloWorld
+  },
+  methods: {
+    handleClick() {
+      console.log(this.$refs.username)
+      this.$refs.username.classList.add('active')
+      this.$refs.username.focus()
+    }
   }
 }
 </script>
