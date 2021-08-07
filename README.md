@@ -641,3 +641,50 @@ export default {
 };
 </script>
 ```
+
+### 3.7. Emitting Custom Events
+
+A custom event can be fired from a component and then it can be listened to from
+the parent component.
+
+In child component
+
+```vue
+<template>
+    <div class="backdrop" @click="closeModal">
+        <div class="modal" :class="{ sale: theme === 'sale' }">
+            <h1>{{ header }}</h1>
+            <p>{{ text }}</p>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    props: [
+        'header',
+        'text',
+        'theme'
+    ],
+    methods: {
+        closeModal() {
+            this.$emit('closeModal')
+        }
+    }
+}
+</script>
+```
+
+In parent component
+
+```vue
+<template>
+  <h1>{{ title }}</h1>
+
+  <div v-if="showModal">
+    <Modal :header="header" :text="text" :theme="theme" @closeModal="toggleModal" />
+  </div>
+
+  <button @click="toggleModal">Open Modal</button>
+</template>
+```
