@@ -488,15 +488,15 @@ export default {
 
 ### 3.4. Multiple Components
 
-Make code useable and modular
+Make code reuseable and modular
 
-Multiple Components
+**Multiple Components**
 ![Multiple Components](assets/multiple_components.png)
 
-Parent component and its children
+**Parent component and its children**
 ![Parent And Children](assets/parent_and_child.png)
 
-Component tree
+**Component tree**
 ![Component Tree](assets/component_tree.png)
 
 Create new component
@@ -522,8 +522,8 @@ Create new component
 
 - Using these new component
 
-```vue
-<template>
-  <Modal />
-</template>
-```
+  ```vue
+  <template>
+    <Modal />
+  </template>
+  ```
