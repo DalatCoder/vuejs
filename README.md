@@ -527,3 +527,33 @@ Create new component
     <Modal />
   </template>
   ```
+
+### 3.5. Commponent Styles
+
+Default `style` applied to `global scope`
+
+Using `scoped` attributes
+
+```vue
+<style scoped>
+h1 {
+  color: black;
+}
+</style>
+```
+
+Make selector more specific
+
+```vue
+<style scoped>
+.modal h1 {
+  color: black;
+}
+</style>
+```
+
+Using `css` file and import it into `main.js`
+
+```js
+import './assets/global.css';
+```
