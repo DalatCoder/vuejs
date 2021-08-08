@@ -706,3 +706,78 @@ E.g.: We only close the modal if the user click on the `backdrop`, not the `moda
   </div>
 </template>
 ```
+
+### 3.9. `Slot`
+
+`slot` is useful for passing custom templates into components.
+
+Passing default `slot`
+
+In parent component
+
+```vue
+<template>
+  <h1>{{ title }}</h1>
+
+  <div v-if="showModal">
+    <Modal :theme="theme" @closeModal="toggleModal">
+      <h1>Ninja Giveaway!</h1>
+      <p>Grab your ninja swag for half price!</p>
+    </Modal>
+  </div>
+
+  <button @click="toggleModal">Open Modal</button>
+</template>
+```
+
+In child component
+
+```vue
+<template>
+  <div class="backdrop" @click.self="closeModal">
+    <div class="modal" :class="{ sale: theme === 'sale' }">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+```
+
+Passing a named `slot`
+
+In parent component
+
+```vue
+<template>
+  <h1>{{ title }}</h1>
+
+  <div v-if="showModal">
+    <Modal :theme="theme" @closeModal="toggleModal">
+      <template v-slot:links>
+        <a href="#">Sign Up</a>
+        <a href="#">Login</a>
+      </template>
+
+      <h1>Ninja Giveaway!</h1>
+      <p>Grab your ninja swag for half price!</p>
+    </Modal>
+  </div>
+
+  <button @click="toggleModal">Open Modal</button>
+</template>
+```
+
+In child component
+
+```vue
+<template>
+  <div class="backdrop" @click.self="closeModal">
+    <div class="modal" :class="{ sale: theme === 'sale' }">
+      <slot></slot>
+
+      <div class="actions">
+        <slot name="links"></slot>
+      </div>
+    </div>
+  </div>
+</template>
+```
