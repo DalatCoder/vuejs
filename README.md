@@ -794,3 +794,19 @@ Create starting button. This button do 2 things:
 - Create random anoumt of delay time for displaying the clickable box
 
 Component Lifecycle Hooks
+
+Create reaction timer
+
+```js
+  methods: {
+    startTimer() {
+      this.timer = setInterval(() => {
+        this.reactionTime += 10
+      }, 10)
+    },
+    stopTimer() {
+      clearInterval(this.timer)
+      console.log(this.reactionTime)
+    },
+  },
+```
