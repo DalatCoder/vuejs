@@ -781,3 +781,9 @@ In child component
   </div>
 </template>
 ```
+
+## 4. Project - Ninja Reaction Timer
+
+Component structure
+
+![Component Structure](assets/reaction_timer.png)
