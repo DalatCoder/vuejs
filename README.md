@@ -787,3 +787,8 @@ In child component
 Component structure
 
 ![Component Structure](assets/reaction_timer.png)
+
+Create starting button. This button do 2 things:
+
+- Keep track of a boolean that indice the game status (on/off)
+- Create random anoumt of delay time for displaying the clickable box
