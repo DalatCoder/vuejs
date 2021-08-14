@@ -810,3 +810,19 @@ Create reaction timer
     },
   },
 ```
+
+Emit an event with data
+
+```js
+  methods: {
+    startTimer() {
+      this.timer = setInterval(() => {
+        this.reactionTime += 10
+      }, 10)
+    },
+    stopTimer() {
+      clearInterval(this.timer)
+      this.$emit('end', this.reactionTime)
+    },
+  },
+```
