@@ -50,6 +50,10 @@ export default {
   text-align: center;
   color: #444;
   margin-top: 60px;
+
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 button {

@@ -1,5 +1,7 @@
 <template>
-  <div class="block" v-if="showBlock" @click="stopTimer">Click me</div>
+  <div class="block" v-show="showBlock" @click="stopTimer" ref="block">
+    Click me
+  </div>
 </template>
 
 <script>
@@ -13,6 +15,19 @@ export default {
     }
   },
   mounted() {
+    const x =
+      20 +
+      Math.random() * document.body.clientWidth -
+      this.$refs.block.clientWidth
+
+    const y =
+      20 +
+      Math.random() * document.body.clientHeight -
+      this.$refs.block.clientHeight
+
+    this.$refs.block.style.left = x + 'px'
+    this.$refs.block.style.top = y + 'px'
+
     setTimeout(() => {
       this.showBlock = true
       this.startTimer()
@@ -42,14 +57,15 @@ export default {
 
 <style>
 .block {
-  width: 400px;
+  width: 300px;
   border-radius: 20px;
   background: #0faf87;
   color: white;
   text-align: center;
-  padding: 100px 0;
-  margin: 40px auto;
+  padding: 70px 0;
   cursor: pointer;
   user-select: none;
+
+  position: absolute;
 }
 </style>
