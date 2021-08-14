@@ -4,13 +4,13 @@
     <button @click="start" :disabled="isPlaying">Play</button>
 
     <Block v-if="isPlaying" :delay="delay" @end="endGame" />
-
-    <p v-if="showResults">Reaction time: {{ score }}</p>
+    <Result v-if="showResults" :score="score" />
   </div>
 </template>
 
 <script>
 import Block from './components/Block.vue'
+import Result from './components/Result.vue'
 
 export default {
   name: 'App',
@@ -24,6 +24,7 @@ export default {
   },
   components: {
     Block,
+    Result,
   },
   methods: {
     start() {
