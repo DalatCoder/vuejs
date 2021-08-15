@@ -828,3 +828,45 @@ Emit an event with data
 ```
 
 ## 4. Chapter 5 - Form & Data Binding
+
+Two-ways Data Binding
+
+Data is bound 2 way:
+
+- In `component` itself
+- In `data` methods
+
+```vue
+<template>
+  <form>
+    <label for="email">Email</label>
+    <input
+      type="email"
+      placeholder="Enter your email"
+      required
+      v-model="email"
+    />
+
+    <label for="password">Password</label>
+    <input
+      type="password"
+      placeholder="Enter your password"
+      required
+      v-model="password"
+    />
+  </form>
+
+  <p>Email: {{ email }} - Password {{ password }}</p>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
+};
+</script>
+```
