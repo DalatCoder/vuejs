@@ -899,3 +899,13 @@ export default {
 };
 </script>
 ```
+
+Keyboard event modifiers
+
+```vue
+<template>
+  <input type="text" v-model="tempSkill" @keyup.alt="addSkill" />
+</template>
+```
+
+If user press `alt` and a `key`, that `key` will not be claimed.
