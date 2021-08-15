@@ -27,26 +27,12 @@
       <input id="terms" type="checkbox" required v-model="terms" />
       <label for="terms">Accept terms and conditions</label>
     </div>
-
-    <div>
-      <input type="checkbox" value="red" id="red" v-model="colors" />
-      <label for="red">Red</label>
-    </div>
-    <div>
-      <input type="checkbox" value="green" id="green" v-model="colors" />
-      <label for="green">Green</label>
-    </div>
-    <div>
-      <input type="checkbox" value="blue" id="blue" v-model="colors" />
-      <label for="blue">Blue</label>
-    </div>
   </form>
 
   <p>Email: {{ email }}</p>
   <p>Password: {{ password }}</p>
   <p>Role: {{ role }}</p>
   <p>Terms: {{ terms }}</p>
-  <p>Colors: {{ colors }}</p>
 </template>
 
 <script>
@@ -57,7 +43,6 @@ export default {
       password: '',
       role: '',
       terms: false,
-      colors: [],
     }
   },
 }

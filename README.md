@@ -870,3 +870,32 @@ export default {
 };
 </script>
 ```
+
+Multiple checkbox
+
+```vue
+<template>
+  <div>
+    <input type="checkbox" value="red" id="red" v-model="colors" />
+    <label for="red">Red</label>
+  </div>
+  <div>
+    <input type="checkbox" value="green" id="green" v-model="colors" />
+    <label for="green">Green</label>
+  </div>
+  <div>
+    <input type="checkbox" value="blue" id="blue" v-model="colors" />
+    <label for="blue">Blue</label>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      colors: [],
+    };
+  },
+};
+</script>
+```
