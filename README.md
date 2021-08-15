@@ -909,3 +909,11 @@ Keyboard event modifiers
 ```
 
 If user press `alt` and a `key`, that `key` will not be claimed.
+
+Submit the form and prevent default behaviour
+
+```vue
+<template>
+  <form @submit.prevent="handleSubmit"></form>
+</template>
+```
