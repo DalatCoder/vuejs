@@ -372,3 +372,159 @@ our app.
 const appTitle = "My Amazing Counter App";
 </script>
 ```
+
+## Methods, Computed & Watch
+
+### Methods
+
+Simple methods
+
+```vue
+<template>
+  <div class="home">
+    <div>
+      <button @click="decreaseCounter" class="btn">-</button>
+      <span class="counter">{{ counterData.count }}</span>
+      <button @click="increaseCounter" class="btn">+</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { reactive, ref } from "vue";
+
+const counterData = reactive({
+  count: 0,
+  title: "My Counter",
+});
+
+const decreaseCounter = () => {
+  counterData.count -= 1;
+};
+
+const increaseCounter = () => {
+  counterData.count += 1;
+};
+</script>
+```
+
+Methods that receive some args
+
+```vue
+<template>
+  <div class="home">
+    <div>
+      <button @click="decreaseCounter(1)" class="btn">-</button>
+      <span class="counter">{{ counterData.count }}</span>
+      <button @click="increaseCounter(1)" class="btn">+</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { reactive, ref } from "vue";
+
+const counterData = reactive({
+  count: 0,
+  title: "My Counter",
+});
+
+const decreaseCounter = (amount) => {
+  counterData.count -= amount;
+};
+
+const increaseCounter = (amount) => {
+  counterData.count += amount;
+};
+</script>
+```
+
+Passing `event` object
+
+```vue
+<template>
+  <div class="home">
+    <div>
+      <button @click="decreaseCounter(1, $event)" class="btn">-</button>
+      <span class="counter">{{ counterData.count }}</span>
+      <button @click="increaseCounter(1, $event)" class="btn">+</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { reactive, ref } from "vue";
+
+const counterData = reactive({
+  count: 0,
+  title: "My Counter",
+});
+
+const decreaseCounter = (amount, e) => {
+  counterData.count -= amount;
+};
+
+const increaseCounter = (amount, e) => {
+  counterData.count += amount;
+};
+</script>
+```
+
+### Computed Properties
+
+Computed properties are properties which are usually generated based on
+relative data which are cached and only updated when their dependencies
+change.
+
+Using `option API`
+
+```vue
+<script>
+export default {
+  computed: {
+    myComputedProterty() {
+      // perform logic
+      return "";
+    },
+  },
+};
+</script>
+```
+
+Using `composition API`
+
+```vue
+<template>
+  <p>This counter is {{ oddOrEven }}</p>
+</template>
+
+<script setup>
+import { computed, reactive, ref } from "vue";
+
+const counter = ref(0);
+const counterTitle = ref("My Counter");
+
+const appTitle = "My Amazing Counter App";
+
+const counterData = reactive({
+  count: 0,
+  title: "My Counter",
+});
+const oddOrEven = computed(() => {
+  if (counterData.count % 2 === 0) return "even";
+  return "odd";
+});
+
+const decreaseCounter = (amount) => {
+  counterData.count -= amount;
+};
+
+const increaseCounter = (amount) => {
+  counterData.count += amount;
+};
+</script>
+```
+
+### A note of filters
+
+In `vue 2`, we have `filters` property. But it's removed in `vue 3`
