@@ -283,3 +283,92 @@ const increaseCounter = () => {
 };
 </script>
 ```
+
+## Refs, Reactive Objects & Non-reactive data
+
+There are 3 main types of data that we can use in a composition API app
+
+- `ref`
+- `reactive` object
+- `non-reactive` data
+
+### Two ways data binding
+
+```vue
+<template>
+  <div class="edit">
+    <h4>Edit Counter Title:</h4>
+    <input v-model="counterTitle" type="text" />
+  </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+
+const counterTitle = ref("My Counter");
+</script>
+```
+
+### Reactive objects
+
+We can see that `ref` are handy for storing simple independent items
+of data such as a `number` or a `string`. But what if we want to store
+a bunch of data of different data that's related together in a single object.
+A bit like we did with the `data method` in `Option API`
+
+```vue
+<template>
+  <div class="home">
+    <h3>{{ counterData.title }}:</h3>
+
+    <div>
+      <button @click="decreaseCounter" class="btn">-</button>
+      <span class="counter">{{ counterData.count }}</span>
+      <button @click="increaseCounter" class="btn">+</button>
+    </div>
+
+    <div class="edit">
+      <h4>Edit Counter Title:</h4>
+      <input v-model="counterData.title" type="text" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { reactive, ref } from "vue";
+
+const counter = ref(0);
+const counterTitle = ref("My Counter");
+
+const counterData = reactive({
+  count: 0,
+  title: "My Counter",
+});
+
+const decreaseCounter = () => {
+  counterData.count--;
+};
+
+const increaseCounter = () => {
+  counterData.count++;
+};
+</script>
+```
+
+### Non-reactive data
+
+Any data properties in your component that don't need to be `reactive`,
+you should make `non-reactive` as this will improve the performance of
+our app.
+
+```vue
+<template>
+  <div class="home">
+    <h2>{{ appTitle }}</h2>
+  </div>
+</template>
+
+<script setup>
+const appTitle = "My Amazing Counter App";
+</script>
+```
