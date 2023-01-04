@@ -763,3 +763,47 @@ onMounted(() => {});
 onMounted(() => {});
 </script>
 ```
+
+## Directive
+
+Vue is full of directives out of the box such as `v-model`, `v-show`, ... We
+can create our own custom directives to add functionality to elements so that
+we can do something to an element once it's been created or mounted.
+
+Let's create a directive which focuses the input element
+
+Using `option API`
+
+```vue
+<script>
+export default {
+  directives: {
+    autofocus: {
+      mounted(element) {
+        element.focus();
+      },
+    },
+  },
+};
+</script>
+
+<template>
+  <input v-autofocus />
+</template>
+```
+
+Using `composition API`
+
+```vue
+<script setup>
+const vAutofocus = {
+  mounted: (element) => {
+    element.focus();
+  },
+};
+</script>
+
+<template>
+  <input v-autofocus />
+</template>
+```
