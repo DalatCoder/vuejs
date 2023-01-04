@@ -575,3 +575,191 @@ const simple = ref(0);
 watch(simple, () => {});
 </script>
 ```
+
+### Lifecycle hooks
+
+### Mounted Hooks
+
+Lifecycle hooks allow us to execute code at different `stages` of our component's
+lifecycle so we can execute code when a component is `mounted`, as in when it's
+`loaded` into the browser. Or we can execute code when it's `unmounted` as in `unloaded`
+from the browser.
+
+Using `option API`
+
+```vue
+<script>
+export default {
+  mounted() {
+    // do stuff when component is loaded
+  },
+  unmounted() {
+    // do stuff when component is unloaded
+  },
+};
+</script>
+```
+
+In the `option API`, we could only add `1 hook` of each type. This meant that
+we often needed to bundle a lot of unrelated logic all together in
+these hooks.
+
+In the `composition API`, we can make as many hooks as we like
+
+```vue
+<script setup>
+import {
+  computed,
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  onUnmounted,
+  reactive,
+  ref,
+  watch,
+} from "vue";
+
+onBeforeMount(() => {
+  console.log("onBeforeMount");
+});
+onMounted(() => {
+  console.log("onMounted");
+});
+onBeforeUnmount(() => {
+  console.log("onBeforeUnmount");
+});
+onUnmounted(() => {
+  console.log("onUnmounted");
+});
+</script>
+```
+
+If we reload the page, we could see the `onBeforeMount` and `onMounted`. When
+we head to about page, we will see the `onBeforeUnmount` and `onUnmounted`
+
+### Activated Hooks
+
+```vue
+<script setup>
+import {
+  computed,
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  onUnmounted,
+  onActivated,
+  onDeactivated,
+  reactive,
+  ref,
+  watch,
+} from "vue";
+
+onActivated(() => {
+  console.log("onActivated");
+});
+onDeactivated(() => {
+  console.log("onDeactivated");
+});
+</script>
+```
+
+These hooks will only fired if our components are being kept alive.
+That meant that the component keeps running in the background, even
+when it's not being displayed on the page.
+
+```vue
+<template>
+  <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
+</template>
+```
+
+### Updated Hooks
+
+This hook will fire whenever the template changes.
+
+```vue
+<script setup>
+import {
+  computed,
+  onActivated,
+  onBeforeMount,
+  onBeforeUnmount,
+  onBeforeUpdate,
+  onDeactivated,
+  onMounted,
+  onUnmounted,
+  onUpdated,
+  reactive,
+  ref,
+  watch,
+} from "vue";
+
+const counter = ref(0);
+const counterTitle = ref("My Counter");
+
+const appTitle = "My Amazing Counter App";
+
+const counterData = reactive({
+  count: 0,
+  title: "My Counter",
+});
+
+watch(
+  () => counterData.count,
+  (newCount, oldCount) => {
+    if (newCount === 20) alert("watch");
+  }
+);
+
+const oddOrEven = computed(() => {
+  if (counterData.count % 2 === 0) return "even";
+  return "odd";
+});
+
+const decreaseCounter = (amount) => {
+  counterData.count -= amount;
+};
+
+const increaseCounter = (amount) => {
+  counterData.count += amount;
+};
+
+onBeforeMount(() => {
+  console.log("onBeforeMount");
+});
+onMounted(() => {
+  console.log("onMounted");
+});
+onBeforeUnmount(() => {
+  console.log("onBeforeUnmount");
+});
+onUnmounted(() => {
+  console.log("onUnmounted");
+});
+onActivated(() => {
+  console.log("onActivated");
+});
+onDeactivated(() => {
+  console.log("onDeactivated");
+});
+onBeforeUpdate(() => {
+  console.log("onBeforeUpdate");
+});
+onUpdated(() => {
+  console.log("onUpdated");
+});
+</script>
+```
+
+### Multiple Hooks
+
+```vue
+<script setup>
+onMounted(() => {});
+onMounted(() => {});
+</script>
+```
