@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 
 const counter = ref(0);
 const counterTitle = ref("My Counter");
@@ -31,6 +31,14 @@ const counterData = reactive({
   count: 0,
   title: "My Counter",
 });
+
+watch(
+  () => counterData.count,
+  (newCount, oldCount) => {
+    if (newCount === 20) alert("watch");
+  }
+);
+
 const oddOrEven = computed(() => {
   if (counterData.count % 2 === 0) return "even";
   return "odd";

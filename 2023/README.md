@@ -528,3 +528,50 @@ const increaseCounter = (amount) => {
 ### A note of filters
 
 In `vue 2`, we have `filters` property. But it's removed in `vue 3`
+
+### Watch
+
+Watches allow us to essentially watch a `reactive` data property
+and then do something whenever it changes
+
+Using `option API`
+
+```vue
+<script>
+export default {
+  data() {
+    return {
+      count: 0,
+    };
+  },
+  watch: {
+    count(newCount, oldCount) {
+      if (newCount === 20) alert("watch");
+    },
+  },
+};
+</script>
+```
+
+Using `composition API`
+
+```vue
+<script setup>
+import { computed, reactive, ref, watch } from "vue";
+
+const counterData = reactive({
+  count: 0,
+  title: "My Counter",
+});
+
+watch(
+  () => counterData.count,
+  (newCount, oldCount) => {
+    if (newCount === 20) alert("watch");
+  }
+);
+
+const simple = ref(0);
+watch(simple, () => {});
+</script>
+```
