@@ -1556,3 +1556,23 @@ const userData = inject("userData");
 ```
 
 ## 9. Composables
+
+### What is `composable`?
+
+You can think of `composable` as `composition API` equivalent of `mixin`
+from the `optioin API`.
+
+They allow us to extract out `reactive` data and methods and keep them
+seperate from any particular component so that we can easily reuse those
+reactive data and methods accross multiple components without having to
+duplicate code.
+
+A `composable` is just a function. We can paste all of our `reactive` data,
+methods, watchers, computed properties,... into this function. And then return
+the stuff from this composable that we want to make avaiable.
+
+Like `custom hooks` in `React`.
+
+Learn more at [Vue School](https://vueschool.io/articles/vuejs-tutorials/what-is-a-vue-js-composable/)
+
+### Create a `composable`
