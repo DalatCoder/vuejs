@@ -34,6 +34,7 @@ import {
   ref,
   watch,
 } from "vue";
+import { vAutofocus } from "@/directives/vAutofocus";
 
 const counter = ref(0);
 const counterTitle = ref("My Counter");
@@ -89,13 +90,6 @@ onBeforeUpdate(() => {
 onUpdated(() => {
   console.log("onUpdated");
 });
-
-// v-autofocus
-const vAutofocus = {
-  mounted: (element) => {
-    element.focus();
-  },
-};
 </script>
 
 <!-- 

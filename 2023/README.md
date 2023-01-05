@@ -770,6 +770,8 @@ Vue is full of directives out of the box such as `v-model`, `v-show`, ... We
 can create our own custom directives to add functionality to elements so that
 we can do something to an element once it's been created or mounted.
 
+### Local custom directives
+
 Let's create a directive which focuses the input element
 
 Using `option API`
@@ -806,4 +808,183 @@ const vAutofocus = {
 <template>
   <input v-autofocus />
 </template>
+```
+
+### Global custom directives
+
+Create new file in `@/directives/vAutofocus.js`
+
+```js
+// v-autofocus
+export const vAutofocus = {
+  mounted: (element) => {
+    element.focus();
+  },
+};
+```
+
+Import our global custom directive
+
+```vue
+<script setup>
+import { vAutofocus } from "@/directives/vAutofocus";
+</script>
+```
+
+## Vue Routers
+
+### `$route`
+
+When using `option API`, we could use the `$route` object to access things
+like the current route path or route parameters. We can still use this `$route`
+in `composition API`
+
+### Setup some `post` routes
+
+Add new URL in `@/router`
+
+```js
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: HomeView,
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: () => import("../views/AboutView.vue"),
+    },
+    {
+      path: "/posts",
+      name: "posts",
+      component: () => import("../views/PostsView.vue"),
+    },
+    {
+      path: "/posts/:id",
+      name: "postDetail",
+      component: () => import("../views/PostDetailView.vue"),
+    },
+  ],
+});
+```
+
+Posts page
+
+```vue
+<template>
+  <div class="posts">
+    <h1>Posts</h1>
+
+    <ul>
+      <li>
+        <router-link to="/posts/1">Post 1</router-link>
+      </li>
+      <li>
+        <router-link to="/posts/2">Post 2</router-link>
+      </li>
+      <li>
+        <router-link to="/posts/3">Post 3</router-link>
+      </li>
+      <li>
+        <router-link to="/posts/4">Post 4</router-link>
+      </li>
+      <li>
+        <router-link to="/posts/5">Post 5</router-link>
+      </li>
+    </ul>
+  </div>
+</template>
+```
+
+Post detail page
+
+```vue
+<template>
+  <div class="posts-detail">
+    <h1>Post Detail</h1>
+  </div>
+</template>
+```
+
+### Using `$route`
+
+Using `$route` in `<template>` to get the router information.
+
+```vue
+<template>
+  <div class="posts-detail">
+    <h1>This is a post detail page</h1>
+    <p>Display the content of post with ID of {{ $route.params.id }}</p>
+
+    <p>
+      <router-link to="/posts">&lt; Back</router-link>
+    </p>
+  </div>
+</template>
+```
+
+However, to access `$route` in script setup, we cannot use `this.$route`.
+Instead we use `useRoute` composable.
+
+### Using `useRoute` composable
+
+Get current params
+
+```vue
+<script setup>
+import { useRoute } from "vue-router";
+
+// this.$route
+const route = useRoute();
+
+const showPostId = () => {
+  alert(`ID: ${route.params.id}`);
+};
+</script>
+```
+
+Push route programmatically
+
+```vue
+<script setup>
+import { useRoute, useRouter } from "vue-router";
+
+/**
+ * Route
+ */
+
+// this.$route
+const route = useRoute();
+
+const showPostId = () => {
+  alert(`ID: ${route.params.id}`);
+};
+
+/**
+ * Router
+ */
+
+// this.$router
+const router = useRouter();
+
+const goHome = () => {
+  router.push("/");
+
+  // push by name
+  // router.push({
+  //   name: "home",
+  // });
+
+  // push with params
+  // router.push({
+  //   name: "postDetail",
+  //   params: {
+  //     id: 1,
+  //   },
+  // });
+};
+</script>
 ```
