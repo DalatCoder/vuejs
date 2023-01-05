@@ -1061,3 +1061,36 @@ onMounted(() => {
 });
 </script>
 ```
+
+### `nextTick`
+
+`nextTick` allow us to wait until the DOM has updated and then do something.
+
+Using `option API`
+
+```vue
+<script>
+const increaseCounter = () => {
+  // this.$nextTick(() => {});
+};
+</script>
+```
+
+Using `composition API`
+
+```vue
+<script>
+const increaseCounter = () => {
+  counter.value += 1;
+  nextTick(() => {
+    console.log("DOM has been updated");
+  });
+};
+
+const decreaseCounter = async () => {
+  counter.value += 1;
+  await nextTick();
+  console.log("DOM has been updated");
+};
+</script>
+```
