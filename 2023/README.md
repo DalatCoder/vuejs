@@ -1328,3 +1328,54 @@ slots.title();
   </div>
 </template>
 ```
+
+### Props
+
+The way that we pass props down from a parent component to a child component
+is exactly the same as before.
+
+Using `option API` to receive `props`
+
+```vue
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+  },
+};
+</script>
+```
+
+Using `composition API`
+
+```vue
+<!-- @/components/Modal.vue -->
+
+<template>
+  <Teleport to="body">
+    <div class="modal">
+      <h1>{{ title }}</h1>
+      <slot />
+      <button>Hide modal</button>
+    </div>
+  </Teleport>
+</template>
+
+<script setup>
+/**
+ * Props
+ */
+// const props = defineProps(["title"]);
+const props = defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
+});
+
+console.log(props.title);
+</script>
+```
