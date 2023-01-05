@@ -5,7 +5,10 @@ export const useCounterStore = defineStore("counter", () => {
   const count = ref(0);
   const counterTitle = "My Counter Title";
 
-  const doubleCount = computed(() => count.value * 2);
+  const oddOrEven = computed(() => {
+    if (count.value % 2 === 0) return "even";
+    return "odd";
+  });
 
   function increaseCounter() {
     count.value++;
@@ -18,7 +21,7 @@ export const useCounterStore = defineStore("counter", () => {
   return {
     count,
     counterTitle,
-    doubleCount,
+    oddOrEven,
     increaseCounter,
     decreaseCounter,
   };

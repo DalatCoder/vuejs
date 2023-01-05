@@ -1857,3 +1857,72 @@ import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
 </script>
 ```
+
+### Getters
+
+Getters allow us to get value from our state and then modify it in
+some way or generate something based on that value and then return
+it, making it available to any component which is using this `store`.
+
+```js
+// @/stores/counters.js
+
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
+
+export const useCounterStore = defineStore("counter", () => {
+  const count = ref(0);
+  const counterTitle = "My Counter Title";
+
+  const oddOrEven = computed(() => {
+    if (count.value % 2 === 0) return "even";
+    return "odd";
+  });
+
+  function increaseCounter() {
+    count.value++;
+  }
+
+  function decreaseCounter() {
+    count.value--;
+  }
+
+  return {
+    count,
+    counterTitle,
+    oddOrEven,
+    increaseCounter,
+    decreaseCounter,
+  };
+});
+```
+
+```vue
+<template>
+  <div class="home">
+    <h2>My Amazing Counter</h2>
+
+    <h3>{{ counter.counterTitle }}:</h3>
+
+    <div>
+      <button @click="counter.decreaseCounter()" class="btn">-</button>
+      <span class="counter">{{ counter.count }}</span>
+      <button @click="counter.increaseCounter()" class="btn">+</button>
+    </div>
+
+    <p>This counter is {{ counter.oddOrEven }}</p>
+
+    <div class="edit">
+      <h4>Edit Counter Title:</h4>
+      <input v-autofocus type="text" v-model="counter.counterTitle" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { vAutofocus } from "@/directives/vAutofocus";
+import { useCounterStore } from "@/stores/counter";
+
+const counter = useCounterStore();
+</script>
+```
