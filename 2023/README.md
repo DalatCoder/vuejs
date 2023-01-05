@@ -1,8 +1,8 @@
 # VueJS 3: Compositioin API (with Pinia, Firebase 9 & Vite)
 
-## Introduction
+## 1. Introduction
 
-### What is the `composition API`
+### 1.1. What is the `composition API`
 
 - New way to create Vue Components
 - Alternative to Options API
@@ -134,14 +134,14 @@ onMounted(() => {
 </script>
 ```
 
-### Setup simple `vue` app
+### 1.2. Setup simple `vue` app
 
 - `node`: `version 16 LTS`
 - `npm install vue@latest`
 
-## Option API vs Composition API - Switching over
+## 2. Option API vs Composition API - Switching over
 
-### Setup Option API
+### 2.1. Setup Option API
 
 Build a simple counter app with option API
 
@@ -215,7 +215,7 @@ export default {
 </style>
 ```
 
-### Switch to Composition API
+### 2.2. Switch to Composition API
 
 Everything in the `<template>` stays the same. The only place we do things
 differently is in the `<script>` section.
@@ -284,7 +284,7 @@ const increaseCounter = () => {
 </script>
 ```
 
-## Refs, Reactive Objects & Non-reactive data
+## 3. Refs, Reactive Objects & Non-reactive data
 
 There are 3 main types of data that we can use in a composition API app
 
@@ -292,7 +292,7 @@ There are 3 main types of data that we can use in a composition API app
 - `reactive` object
 - `non-reactive` data
 
-### Two ways data binding
+### 3.1. Two ways data binding
 
 ```vue
 <template>
@@ -309,7 +309,7 @@ const counterTitle = ref("My Counter");
 </script>
 ```
 
-### Reactive objects
+### 3.2. Reactive objects
 
 We can see that `ref` are handy for storing simple independent items
 of data such as a `number` or a `string`. But what if we want to store
@@ -355,7 +355,7 @@ const increaseCounter = () => {
 </script>
 ```
 
-### Non-reactive data
+### 3.3. Non-reactive data
 
 Any data properties in your component that don't need to be `reactive`,
 you should make `non-reactive` as this will improve the performance of
@@ -373,9 +373,9 @@ const appTitle = "My Amazing Counter App";
 </script>
 ```
 
-## Methods, Computed & Watch
+## 4. Methods, Computed & Watch
 
-### Methods
+### 4.1. Methods
 
 Simple methods
 
@@ -470,7 +470,7 @@ const increaseCounter = (amount, e) => {
 </script>
 ```
 
-### Computed Properties
+### 4.2. Computed Properties
 
 Computed properties are properties which are usually generated based on
 relative data which are cached and only updated when their dependencies
@@ -525,11 +525,11 @@ const increaseCounter = (amount) => {
 </script>
 ```
 
-### A note of filters
+### 4.3. A note of filters
 
 In `vue 2`, we have `filters` property. But it's removed in `vue 3`
 
-### Watch
+### 4.4. Watch
 
 Watches allow us to essentially watch a `reactive` data property
 and then do something whenever it changes
@@ -576,9 +576,9 @@ watch(simple, () => {});
 </script>
 ```
 
-### Lifecycle hooks
+### 4.5. Lifecycle hooks
 
-### Mounted Hooks
+### 4.6. Mounted Hooks
 
 Lifecycle hooks allow us to execute code at different `stages` of our component's
 lifecycle so we can execute code when a component is `mounted`, as in when it's
@@ -637,7 +637,7 @@ onUnmounted(() => {
 If we reload the page, we could see the `onBeforeMount` and `onMounted`. When
 we head to about page, we will see the `onBeforeUnmount` and `onUnmounted`
 
-### Activated Hooks
+### 4.7. Activated Hooks
 
 ```vue
 <script setup>
@@ -677,7 +677,7 @@ when it's not being displayed on the page.
 </template>
 ```
 
-### Updated Hooks
+### 4.8. Updated Hooks
 
 This hook will fire whenever the template changes.
 
@@ -755,7 +755,7 @@ onUpdated(() => {
 </script>
 ```
 
-### Multiple Hooks
+### 4.9. Multiple Hooks
 
 ```vue
 <script setup>
@@ -764,13 +764,13 @@ onMounted(() => {});
 </script>
 ```
 
-## Directive
+## 5. Directive
 
 Vue is full of directives out of the box such as `v-model`, `v-show`, ... We
 can create our own custom directives to add functionality to elements so that
 we can do something to an element once it's been created or mounted.
 
-### Local custom directives
+### 5.1. Local custom directives
 
 Let's create a directive which focuses the input element
 
@@ -810,7 +810,7 @@ const vAutofocus = {
 </template>
 ```
 
-### Global custom directives
+### 5.2. Global custom directives
 
 Create new file in `@/directives/vAutofocus.js`
 
@@ -831,15 +831,15 @@ import { vAutofocus } from "@/directives/vAutofocus";
 </script>
 ```
 
-## Vue Routers
+## 6. Vue Routers
 
-### `$route`
+### 6.1. `$route`
 
 When using `option API`, we could use the `$route` object to access things
 like the current route path or route parameters. We can still use this `$route`
 in `composition API`
 
-### Setup some `post` routes
+### 6.2. Setup some `post` routes
 
 Add new URL in `@/router`
 
@@ -909,7 +909,7 @@ Post detail page
 </template>
 ```
 
-### Using `$route`
+### 6.3. Using `$route`
 
 Using `$route` in `<template>` to get the router information.
 
@@ -929,7 +929,7 @@ Using `$route` in `<template>` to get the router information.
 However, to access `$route` in script setup, we cannot use `this.$route`.
 Instead we use `useRoute` composable.
 
-### Using `useRoute` composable
+### 6.4. Using `useRoute` composable
 
 Get current params
 
@@ -989,9 +989,9 @@ const goHome = () => {
 </script>
 ```
 
-## Other features
+## 7. Other features
 
-### Lists
+### 7.1. Lists
 
 Lists using the `v-for` directive works exactly the same way in the
 `composition API` as they did before.
@@ -1029,7 +1029,7 @@ ul {
 </style>
 ```
 
-### Template Refs
+### 7.2. Template Refs
 
 In `option API`, we could add a `ref` attribute to an element, give it a
 name and then we could access this element on the component `mounted`
@@ -1062,7 +1062,7 @@ onMounted(() => {
 </script>
 ```
 
-### `nextTick`
+### 7.3. `nextTick`
 
 `nextTick` allow us to wait until the DOM has updated and then do something.
 
@@ -1095,7 +1095,7 @@ const decreaseCounter = async () => {
 </script>
 ```
 
-### Teleport
+### 7.4. Teleport
 
 Teleporting allow us to move an element from its default place in the DOM
 to somewhere else in the DOM (outside of the `div` with id of `app`)
@@ -1205,9 +1205,9 @@ Using `Teleport` to make the `Modal` the child of the `body` element
 </template>
 ```
 
-## Child Components, props, emits
+## 8. Child Components, props, emits
 
-### Child components
+### 8.1. Child components
 
 Create new `Modal` component at `@/components/Modal`
 
@@ -1278,7 +1278,7 @@ const showModal = ref(false);
 </script>
 ```
 
-### Slots
+### 8.2. Slots
 
 For the most parts, `slots` work exactly the same way in the `composition API`
 
@@ -1329,7 +1329,7 @@ slots.title();
 </template>
 ```
 
-### Props
+### 8.3. Props
 
 The way that we pass props down from a parent component to a child component
 is exactly the same as before.
@@ -1380,7 +1380,7 @@ console.log(props.title);
 </script>
 ```
 
-### Emits
+### 8.4. Emits
 
 Emitting a custom event.
 
@@ -1467,7 +1467,7 @@ const handleButtonClick = () => {
 </script>
 ```
 
-### Dynamic components
+### 8.5. Dynamic components
 
 Dynamic components allow us to switch out the component that is
 being used in a particular parts of our app.
@@ -1484,7 +1484,7 @@ import Modal from "@/components/Modal.vue";
 </script>
 ```
 
-### Provide / Inject
+### 8.6. Provide / Inject
 
 We save how to pass data from a parent component to its direct child
 component using props.
@@ -1554,3 +1554,5 @@ import { inject } from "@vue/runtime-core";
 const userData = inject("userData");
 </script>
 ```
+
+## 9. Composables
