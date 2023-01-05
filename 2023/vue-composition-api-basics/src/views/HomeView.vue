@@ -1,13 +1,13 @@
 <template>
   <div class="home">
-    <h2>{{ appTitle }}</h2>
+    <h2>My Amazing Counter</h2>
 
     <h3>{{ counterData.title }}:</h3>
 
     <div>
-      <button @click="decreaseCounter(1, $event)" class="btn">-</button>
+      <button @click="decreaseCounter" class="btn">-</button>
       <span class="counter">{{ counterData.count }}</span>
-      <button @click="increaseCounter(1)" class="btn">+</button>
+      <button @click="increaseCounter" class="btn">+</button>
     </div>
 
     <p>This counter is {{ oddOrEven }}</p>
@@ -20,76 +20,11 @@
 </template>
 
 <script setup>
-import {
-  computed,
-  onActivated,
-  onBeforeMount,
-  onBeforeUnmount,
-  onBeforeUpdate,
-  onDeactivated,
-  onMounted,
-  onUnmounted,
-  onUpdated,
-  reactive,
-  ref,
-  watch,
-} from "vue";
 import { vAutofocus } from "@/directives/vAutofocus";
+import { useCounter } from "@/use/useCounter";
 
-const counter = ref(0);
-const counterTitle = ref("My Counter");
-
-const appTitle = "My Amazing Counter App";
-
-const counterData = reactive({
-  count: 0,
-  title: "My Counter",
-});
-
-watch(
-  () => counterData.count,
-  (newCount, oldCount) => {
-    if (newCount === 20) alert("watch");
-  }
-);
-
-const oddOrEven = computed(() => {
-  if (counterData.count % 2 === 0) return "even";
-  return "odd";
-});
-
-const decreaseCounter = (amount) => {
-  counterData.count -= amount;
-};
-
-const increaseCounter = (amount) => {
-  counterData.count += amount;
-};
-
-onBeforeMount(() => {
-  console.log("onBeforeMount");
-});
-onMounted(() => {
-  console.log("onMounted");
-});
-onBeforeUnmount(() => {
-  console.log("onBeforeUnmount");
-});
-onUnmounted(() => {
-  console.log("onUnmounted");
-});
-onActivated(() => {
-  console.log("onActivated");
-});
-onDeactivated(() => {
-  console.log("onDeactivated");
-});
-onBeforeUpdate(() => {
-  console.log("onBeforeUpdate");
-});
-onUpdated(() => {
-  console.log("onUpdated");
-});
+const { counterData, decreaseCounter, increaseCounter, oddOrEven } =
+  useCounter();
 </script>
 
 <!-- 

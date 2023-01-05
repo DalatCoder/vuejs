@@ -1576,3 +1576,119 @@ Like `custom hooks` in `React`.
 Learn more at [Vue School](https://vueschool.io/articles/vuejs-tutorials/what-is-a-vue-js-composable/)
 
 ### Create a `composable`
+
+Let's say we want to use our `counter` data and the related `methods` on
+multiple components. We could do this using a `composable`
+
+Create a new folder at `@/use` to store all of our composables
+
+```js
+import { computed, onMounted, onUnmounted, reactive, watch } from "vue";
+
+export function useCounter() {
+  const counterData = reactive({
+    count: 0,
+    title: "My Counter",
+  });
+
+  watch(
+    () => counterData.count,
+    (newCount, oldCount) => {
+      if (newCount === 20) alert("Reach 20");
+    }
+  );
+
+  const decreaseCounter = () => {
+    counterData.count -= 1;
+  };
+
+  const increaseCounter = () => {
+    counterData.count += 1;
+  };
+
+  const oddOrEven = computed(() => {
+    if (counterData.count % 2 === 0) return "even";
+    return "odd";
+  });
+
+  onMounted(() => {
+    console.log("onMounted");
+  });
+
+  onUnmounted(() => {
+    console.log("onUnmounted");
+  });
+
+  return {
+    counterData,
+    decreaseCounter,
+    increaseCounter,
+    oddOrEven,
+  };
+}
+```
+
+### Use `composable`
+
+```vue
+<script setup>
+import { vAutofocus } from "@/directives/vAutofocus";
+import { useCounter } from "@/use/useCounter";
+
+const { counterData, decreaseCounter, increaseCounter, oddOrEven } =
+  useCounter();
+</script>
+```
+
+If we click to a new page, a counter value will be reset to 0.
+
+That's because a new instance of `useCounter` method will be created
+every time we change page. If we want our `counter` to be a global `counter`
+that won't reset when we change pages and we can just move the `reactive`
+object outside of the `useCounter` function
+
+```js
+import { computed, onMounted, onUnmounted, reactive, watch } from "vue";
+
+const counterData = reactive({
+  count: 0,
+  title: "My Counter",
+});
+
+export function useCounter() {
+  watch(
+    () => counterData.count,
+    (newCount, oldCount) => {
+      if (newCount === 20) alert("Reach 20");
+    }
+  );
+
+  const decreaseCounter = () => {
+    counterData.count -= 1;
+  };
+
+  const increaseCounter = () => {
+    counterData.count += 1;
+  };
+
+  const oddOrEven = computed(() => {
+    if (counterData.count % 2 === 0) return "even";
+    return "odd";
+  });
+
+  onMounted(() => {
+    console.log("onMounted");
+  });
+
+  onUnmounted(() => {
+    console.log("onUnmounted");
+  });
+
+  return {
+    counterData,
+    decreaseCounter,
+    increaseCounter,
+    oddOrEven,
+  };
+}
+```
