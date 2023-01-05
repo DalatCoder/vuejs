@@ -1204,3 +1204,74 @@ Using `Teleport` to make the `Modal` the child of the `body` element
   </div>
 </template>
 ```
+
+## Child Components, props, emits
+
+Create new `Modal` component at `@/components/Modal`
+
+```vue
+<template>
+  <Teleport to="body">
+    <div class="modal">
+      <h1>This is a modal</h1>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem earum
+        voluptatibus modi odit voluptatem eos quas aliquam a, perferendis ipsum
+        odio amet ipsa temporibus veritatis, rem necessitatibus neque corrupti
+        aspernatur!
+      </p>
+      <button>Hide modal</button>
+    </div>
+  </Teleport>
+</template>
+
+<style scoped>
+.modal {
+  background: beige;
+  padding: 10px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+</style>
+```
+
+Import `Modal` component to `ModalView` using `option API`
+
+```vue
+<script>
+import Modal from "@/components/Modal.vue";
+
+export default {
+  components: {
+    Modal,
+  },
+};
+</script>
+```
+
+Using `composition API`, we just need to import the component
+
+```vue
+<template>
+  <div class="modals">
+    <h1>Modal</h1>
+    <button @click="showModal = true">Show Modal</button>
+
+    <Modal v-if="showModal"></Modal>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "@vue/reactivity";
+import Modal from "@/components/Modal.vue";
+
+/**
+ * Modals
+ */
+const showModal = ref(false);
+</script>
+```
