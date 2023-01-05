@@ -1207,6 +1207,8 @@ Using `Teleport` to make the `Modal` the child of the `body` element
 
 ## Child Components, props, emits
 
+### Child components
+
 Create new `Modal` component at `@/components/Modal`
 
 ```vue
@@ -1274,4 +1276,55 @@ import Modal from "@/components/Modal.vue";
  */
 const showModal = ref(false);
 </script>
+```
+
+### Slots
+
+For the most parts, `slots` work exactly the same way in the `composition API`
+
+```vue
+<!-- @/components/Modal.vue -->
+
+<template>
+  <Teleport to="body">
+    <div class="modal">
+      <slot name="title" />
+      <slot />
+      <button>Hide modal</button>
+
+      <!-- <pre>{{ $slots.title() }}</pre> -->
+    </div>
+  </Teleport>
+</template>
+
+<script setup>
+import { useSlots } from "vue";
+
+const slots = useSlots();
+// this.$slots.title();
+slots.title();
+</script>
+```
+
+```vue
+<!-- @/views/ModalView -->
+
+<template>
+  <div class="modals">
+    <h1>Modal</h1>
+    <button @click="showModal = true">Show Modal</button>
+
+    <Modal v-if="showModal">
+      <template #title>
+        <h1>This is a modal</h1>
+      </template>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem earum
+        voluptatibus modi odit voluptatem eos quas aliquam a, perferendis ipsum
+        odio amet ipsa temporibus veritatis, rem necessitatibus neque corrupti
+        aspernatur!
+      </p>
+    </Modal>
+  </div>
+</template>
 ```
