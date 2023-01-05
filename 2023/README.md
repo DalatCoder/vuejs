@@ -1707,3 +1707,89 @@ import { useOnline } from "@vueuse/core";
 const online = useOnline();
 </script>
 ```
+
+## State management with `Pinia`
+
+### What is state management?
+
+State management allows us to store all of our data and related methods to
+one single centralized place which is outside of our components. But in the
+way that all of our components can access all of the data and methods.
+
+The place where we store these data and methods is called a `store`.
+
+In `pinia` store, we have 3 main sections
+
+- State: where we store all of our data properties
+- Actions: where we store methods which can access the data and also modifying it
+- Getters: where we place methods which can grab something from the state
+  and then possibly modify it in some way and then return it.
+
+A `store` is available everywhere within our app.
+
+### Composable state vs Vuex vs Pinia
+
+There are 3 main ways that we can integrate state management
+
+- Using Composable
+- Using Vuex
+- Using Pinia
+
+Using composable [Youtube](https://www.youtube.com/watch?v=_k4GM5cmm68)
+
+For a long time, Vuex has been the gold standard for state management of
+Vue App. However, nowadays pinia is prefer.
+
+### State
+
+We're currently using `useCounter` to manage all of the functionality of
+the counter app.
+
+Let's instead use `pinia` to setup state management for this counter app.
+
+```js
+// @/stores/counter.js
+
+import { ref } from "vue";
+import { defineStore } from "pinia";
+
+export const useCounterStore = defineStore("counter", () => {
+  const count = ref(0);
+  const counterTitle = "My Counter Title";
+
+  return { count, counterTitle };
+});
+```
+
+```vue
+<!-- @/views/HomeView.vue -->
+
+<template>
+  <div class="home">
+    <h2>My Amazing Counter</h2>
+
+    <h3>{{ counter.counterTitle }}:</h3>
+
+    <div>
+      <button class="btn">-</button>
+      <span class="counter">{{ count }}</span>
+      <button class="btn">+</button>
+    </div>
+
+    <p>This counter is</p>
+
+    <div class="edit">
+      <h4>Edit Counter Title:</h4>
+      <input v-autofocus type="text" v-model="counter.counterTitle" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { vAutofocus } from "@/directives/vAutofocus";
+import { useCounterStore } from "@/stores/counter";
+
+const counter = useCounterStore();
+const { count } = counter;
+</script>
+```

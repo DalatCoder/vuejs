@@ -2,29 +2,29 @@
   <div class="home">
     <h2>My Amazing Counter</h2>
 
-    <h3>{{ counterData.title }}:</h3>
+    <h3>{{ counter.counterTitle }}:</h3>
 
     <div>
-      <button @click="decreaseCounter" class="btn">-</button>
-      <span class="counter">{{ counterData.count }}</span>
-      <button @click="increaseCounter" class="btn">+</button>
+      <button class="btn">-</button>
+      <span class="counter">{{ count }}</span>
+      <button class="btn">+</button>
     </div>
 
-    <p>This counter is {{ oddOrEven }}</p>
+    <p>This counter is</p>
 
     <div class="edit">
       <h4>Edit Counter Title:</h4>
-      <input v-autofocus v-model="counterData.title" type="text" />
+      <input v-autofocus type="text" v-model="counter.counterTitle" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { vAutofocus } from "@/directives/vAutofocus";
-import { useCounter } from "@/use/useCounter";
+import { useCounterStore } from "@/stores/counter";
 
-const { counterData, decreaseCounter, increaseCounter, oddOrEven } =
-  useCounter();
+const counter = useCounterStore();
+const { count } = counter;
 </script>
 
 <!-- 
