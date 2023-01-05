@@ -1,5 +1,58 @@
 # VueJS 3: Compositioin API (with Pinia, Firebase 9 & Vite)
 
+- [VueJS 3: Compositioin API (with Pinia, Firebase 9 \& Vite)](#vuejs-3-compositioin-api-with-pinia-firebase-9--vite)
+  - [1. Introduction](#1-introduction)
+    - [1.1. What is the `composition API`](#11-what-is-the-composition-api)
+    - [1.2. Setup simple `vue` app](#12-setup-simple-vue-app)
+  - [2. Option API vs Composition API - Switching over](#2-option-api-vs-composition-api---switching-over)
+    - [2.1. Setup Option API](#21-setup-option-api)
+    - [2.2. Switch to Composition API](#22-switch-to-composition-api)
+  - [3. Refs, Reactive Objects \& Non-reactive data](#3-refs-reactive-objects--non-reactive-data)
+    - [3.1. Two ways data binding](#31-two-ways-data-binding)
+    - [3.2. Reactive objects](#32-reactive-objects)
+    - [3.3. Non-reactive data](#33-non-reactive-data)
+  - [4. Methods, Computed \& Watch](#4-methods-computed--watch)
+    - [4.1. Methods](#41-methods)
+    - [4.2. Computed Properties](#42-computed-properties)
+    - [4.3. A note of filters](#43-a-note-of-filters)
+    - [4.4. Watch](#44-watch)
+    - [4.5. Lifecycle hooks](#45-lifecycle-hooks)
+    - [4.6. Mounted Hooks](#46-mounted-hooks)
+    - [4.7. Activated Hooks](#47-activated-hooks)
+    - [4.8. Updated Hooks](#48-updated-hooks)
+    - [4.9. Multiple Hooks](#49-multiple-hooks)
+  - [5. Directive](#5-directive)
+    - [5.1. Local custom directives](#51-local-custom-directives)
+    - [5.2. Global custom directives](#52-global-custom-directives)
+  - [6. Vue Routers](#6-vue-routers)
+    - [6.1. `$route`](#61-route)
+    - [6.2. Setup some `post` routes](#62-setup-some-post-routes)
+    - [6.3. Using `$route`](#63-using-route)
+    - [6.4. Using `useRoute` composable](#64-using-useroute-composable)
+  - [7. Other features](#7-other-features)
+    - [7.1. Lists](#71-lists)
+    - [7.2. Template Refs](#72-template-refs)
+    - [7.3. `nextTick`](#73-nexttick)
+    - [7.4. Teleport](#74-teleport)
+  - [8. Child Components, props, emits](#8-child-components-props-emits)
+    - [8.1. Child components](#81-child-components)
+    - [8.2. Slots](#82-slots)
+    - [8.3. Props](#83-props)
+    - [8.4. Emits](#84-emits)
+    - [8.5. Dynamic components](#85-dynamic-components)
+    - [8.6. Provide / Inject](#86-provide--inject)
+  - [9. Composables](#9-composables)
+    - [9.1. What is `composable`?](#91-what-is-composable)
+    - [9.2. Create a `composable`](#92-create-a-composable)
+    - [9.3. Use `composable`](#93-use-composable)
+    - [9.4. Add composables from `VueUse`](#94-add-composables-from-vueuse)
+  - [10. State management with `Pinia`](#10-state-management-with-pinia)
+    - [10.1. What is state management?](#101-what-is-state-management)
+    - [10.2. Composable state vs Vuex vs Pinia](#102-composable-state-vs-vuex-vs-pinia)
+    - [10.3. State](#103-state)
+    - [10.4. Actions](#104-actions)
+    - [10.5. Getters](#105-getters)
+
 ## 1. Introduction
 
 ### 1.1. What is the `composition API`
@@ -1557,7 +1610,7 @@ const userData = inject("userData");
 
 ## 9. Composables
 
-### What is `composable`?
+### 9.1. What is `composable`?
 
 You can think of `composable` as `composition API` equivalent of `mixin`
 from the `optioin API`.
@@ -1575,7 +1628,7 @@ Like `custom hooks` in `React`.
 
 Learn more at [Vue School](https://vueschool.io/articles/vuejs-tutorials/what-is-a-vue-js-composable/)
 
-### Create a `composable`
+### 9.2. Create a `composable`
 
 Let's say we want to use our `counter` data and the related `methods` on
 multiple components. We could do this using a `composable`
@@ -1628,7 +1681,7 @@ export function useCounter() {
 }
 ```
 
-### Use `composable`
+### 9.3. Use `composable`
 
 ```vue
 <script setup>
@@ -1693,7 +1746,7 @@ export function useCounter() {
 }
 ```
 
-### Add composables from `VueUse`
+### 9.4. Add composables from `VueUse`
 
 ```sh
 npm i @vueuse/core
@@ -1708,9 +1761,9 @@ const online = useOnline();
 </script>
 ```
 
-## State management with `Pinia`
+## 10. State management with `Pinia`
 
-### What is state management?
+### 10.1. What is state management?
 
 State management allows us to store all of our data and related methods to
 one single centralized place which is outside of our components. But in the
@@ -1727,7 +1780,7 @@ In `pinia` store, we have 3 main sections
 
 A `store` is available everywhere within our app.
 
-### Composable state vs Vuex vs Pinia
+### 10.2. Composable state vs Vuex vs Pinia
 
 There are 3 main ways that we can integrate state management
 
@@ -1740,7 +1793,7 @@ Using composable [Youtube](https://www.youtube.com/watch?v=_k4GM5cmm68)
 For a long time, Vuex has been the gold standard for state management of
 Vue App. However, nowadays pinia is prefer.
 
-### State
+### 10.3. State
 
 We're currently using `useCounter` to manage all of the functionality of
 the counter app.
@@ -1794,7 +1847,7 @@ const { count } = counter;
 </script>
 ```
 
-### Actions
+### 10.4. Actions
 
 Actions are basically just methods which can access the properties in our
 state and modify them.
@@ -1858,7 +1911,7 @@ const counter = useCounterStore();
 </script>
 ```
 
-### Getters
+### 10.5. Getters
 
 Getters allow us to get value from our state and then modify it in
 some way or generate something based on that value and then return
