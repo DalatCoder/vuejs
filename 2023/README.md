@@ -52,6 +52,9 @@
     - [10.3. State](#103-state)
     - [10.4. Actions](#104-actions)
     - [10.5. Getters](#105-getters)
+  - [Noteballs: setup \& routers](#noteballs-setup--routers)
+    - [Setup project](#setup-project)
+    - [Setup routers](#setup-routers)
 
 ## 1. Introduction
 
@@ -1978,4 +1981,113 @@ import { useCounterStore } from "@/stores/counter";
 
 const counter = useCounterStore();
 </script>
+```
+
+## Noteballs: setup & routers
+
+### Setup project
+
+```sh
+npm init vue@latest
+```
+
+Answer `no` to all questions
+
+### Setup routers
+
+Install `vue-router@4`: `npm install vue-router@4`
+
+Setup router in `main.js`
+
+```js
+import { createApp } from "vue";
+import { createRouter, createWebHashHistory } from "vue-router";
+import App from "./App.vue";
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes: [],
+});
+
+createApp(App).use(router).mount("#app");
+```
+
+Define some routes
+
+```js
+import { createApp } from "vue";
+import { createRouter, createWebHashHistory } from "vue-router";
+import App from "./App.vue";
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes: [
+    {
+      path: "/",
+      name: "notes",
+      component: import("@/views/NotesView.vue"),
+    },
+    {
+      path: "/stats",
+      name: "stats",
+      component: import("@/views/StatsView.vue"),
+    },
+  ],
+});
+
+createApp(App).use(router).mount("#app");
+```
+
+Add `<router-view>` to show corresponding view based on url. The `<router-view>`
+component will determine where our routes will be displayed.
+
+```vue
+<!-- @/App.vue -->
+
+<template>
+  <router-link to="/">Notes</router-link>
+  <router-link to="/stats">Stats</router-link>
+
+  <router-view></router-view>
+</template>
+```
+
+Tidying up:
+
+- Extract all of our router setup code into its own file.
+
+```js
+// @/routes/index.js
+
+import { createRouter, createWebHashHistory } from "vue-router";
+
+const routes = [
+  {
+    path: "/",
+    name: "notes",
+    component: () => import("@/views/NotesView.vue"),
+  },
+  {
+    path: "/stats",
+    name: "stats",
+    component: () => import("@/views/StatsView.vue"),
+  },
+];
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
+
+export default router;
+```
+
+- Import `router` in `main.js`
+
+```js
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./routers";
+
+createApp(App).use(router).mount("#app");
 ```
