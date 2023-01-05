@@ -1094,3 +1094,113 @@ const decreaseCounter = async () => {
 };
 </script>
 ```
+
+### Teleport
+
+Teleporting allow us to move an element from its default place in the DOM
+to somewhere else in the DOM (outside of the `div` with id of `app`)
+
+This is really handy for things like `modals`
+
+Define new routes in `@/router`
+
+```js
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: HomeView,
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: () => import("../views/AboutView.vue"),
+    },
+    {
+      path: "/posts",
+      name: "posts",
+      component: () => import("../views/PostsView.vue"),
+    },
+    {
+      path: "/posts/:id",
+      name: "postDetail",
+      component: () => import("../views/PostDetailView.vue"),
+    },
+    {
+      path: "/modals",
+      name: "modals",
+      component: () => import("../views/ModalView.vue"),
+    },
+  ],
+});
+```
+
+Simple template
+
+```vue
+<template>
+  <div class="modals">
+    <h1>Modal</h1>
+    <button @click="showModal = true">Show Modal</button>
+
+    <div v-if="showModal" class="modal">
+      <h1>This is a modal</h1>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem earum
+        voluptatibus modi odit voluptatem eos quas aliquam a, perferendis ipsum
+        odio amet ipsa temporibus veritatis, rem necessitatibus neque corrupti
+        aspernatur!
+      </p>
+      <button @click="showModal = false">Hide modal</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "@vue/reactivity";
+
+/**
+ * Modals
+ */
+const showModal = ref(false);
+</script>
+
+<style>
+.modal {
+  background: beige;
+  padding: 10px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+</style>
+```
+
+Using `Teleport` to make the `Modal` the child of the `body` element
+
+```vue
+<template>
+  <div class="modals">
+    <h1>Modal</h1>
+    <button @click="showModal = true">Show Modal</button>
+
+    <Teleport to="body">
+      <div v-if="showModal" class="modal">
+        <h1>This is a modal</h1>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem earum
+          voluptatibus modi odit voluptatem eos quas aliquam a, perferendis
+          ipsum odio amet ipsa temporibus veritatis, rem necessitatibus neque
+          corrupti aspernatur!
+        </p>
+        <button @click="showModal = false">Hide modal</button>
+      </div>
+    </Teleport>
+  </div>
+</template>
+```
