@@ -1028,3 +1028,36 @@ ul {
 }
 </style>
 ```
+
+### Template Refs
+
+In `option API`, we could add a `ref` attribute to an element, give it a
+name and then we could access this element on the component `mounted`
+and then do something to it such as `focus`, get element `width`,...
+
+In `composition API`, we still use the `ref` attribute and then, we define
+a `data ref` whose name equal to the `template ref`
+
+```vue
+<template>
+  <div class="posts">
+    <h1 ref="titleRef">Posts</h1>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
+
+/**
+ * Template Refs
+ */
+// this.$refs.titleRef
+const titleRef = ref(null);
+
+onMounted(() => {
+  console.log(titleRef.value);
+  console.log(titleRef.value.offsetWidth);
+});
+</script>
+```
