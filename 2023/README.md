@@ -1692,3 +1692,18 @@ export function useCounter() {
   };
 }
 ```
+
+### Add composables from `VueUse`
+
+```sh
+npm i @vueuse/core
+```
+
+```vue
+<script setup>
+import { useOnline } from "@vueuse/core";
+
+// networking statuses
+const online = useOnline();
+</script>
+```
