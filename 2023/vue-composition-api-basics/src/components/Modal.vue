@@ -3,7 +3,9 @@
     <div class="modal">
       <h1>{{ title }}</h1>
       <slot />
-      <button>Hide modal</button>
+      <button @click="handleButtonClick">Hide modal</button>
+
+      <div>Username is: {{ userData.username }}</div>
     </div>
   </Teleport>
 </template>
@@ -12,6 +14,9 @@
 /**
  * Props
  */
+
+import { inject } from "@vue/runtime-core";
+
 // const props = defineProps(["title"]);
 const props = defineProps({
   title: {
@@ -20,7 +25,24 @@ const props = defineProps({
   },
 });
 
-console.log(props.title);
+/**
+ * Emits
+ */
+const emit = defineEmits(["hideModal"]);
+
+/**
+ * handle button click
+ */
+const handleButtonClick = () => {
+  // this.$emit('hideModal')
+
+  emit("hideModal");
+};
+
+/**
+ * user data
+ */
+const userData = inject("userData");
 </script>
 
 <style scoped>

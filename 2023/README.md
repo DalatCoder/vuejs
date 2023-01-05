@@ -1379,3 +1379,178 @@ const props = defineProps({
 console.log(props.title);
 </script>
 ```
+
+### Emits
+
+Emitting a custom event.
+
+Using `option API`
+
+```vue
+<script>
+export default {
+  emits: ["hideModal"],
+};
+</script>
+```
+
+Using `composition API`
+
+```vue
+<template>
+  <Teleport to="body">
+    <div class="modal">
+      <h1>{{ title }}</h1>
+      <slot />
+      <button @click="$emit('hideModal')">Hide modal</button>
+    </div>
+  </Teleport>
+</template>
+
+<script setup>
+/**
+ * Props
+ */
+// const props = defineProps(["title"]);
+const props = defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
+});
+
+/**
+ * Emits
+ */
+const emit = defineEmits(["hideModal"]);
+</script>
+```
+
+Emit events programmatically
+
+```vue
+<template>
+  <Teleport to="body">
+    <div class="modal">
+      <h1>{{ title }}</h1>
+      <slot />
+      <button @click="handleButtonClick">Hide modal</button>
+    </div>
+  </Teleport>
+</template>
+
+<script setup>
+/**
+ * Props
+ */
+// const props = defineProps(["title"]);
+const props = defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
+});
+
+/**
+ * Emits
+ */
+const emit = defineEmits(["hideModal"]);
+
+/**
+ * handle button click
+ */
+const handleButtonClick = () => {
+  // this.$emit('hideModal')
+
+  emit("hideModal");
+};
+</script>
+```
+
+### Dynamic components
+
+Dynamic components allow us to switch out the component that is
+being used in a particular parts of our app.
+
+```vue
+<template>
+  <component :is="Modal">
+    <p>Slots</p>
+  </component>
+</template>
+
+<script setup>
+import Modal from "@/components/Modal.vue";
+</script>
+```
+
+### Provide / Inject
+
+We save how to pass data from a parent component to its direct child
+component using props.
+
+But what if we want to pass data down to a really deeply nested
+child component?
+
+Well, using props, we would need to pass the data from parent to
+child to child to child and so on until we reach the desired child component.
+And this can be a messy way to pass data around.
+
+We can get around this by using `Provide / Inject`
+
+```vue
+<!-- @/App.vue -->
+
+<template>
+  <div class="user-data">{{ userData.name }} @{{ userData.username }}</div>
+  <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/posts">Posts</RouterLink>
+    <RouterLink to="/about">About</RouterLink>
+    <RouterLink to="/modals">Modals</RouterLink>
+  </nav>
+
+  <RouterView />
+</template>
+
+<script setup>
+import { reactive } from "@vue/reactivity";
+import { provide } from "@vue/runtime-core";
+
+/**
+ * user data will be available to all App child components
+ * through inject()
+ */
+const userData = reactive({
+  name: "Hieu",
+  username: "tronghieu",
+});
+
+provide("userData", userData);
+</script>
+```
+
+```vue
+<!-- @/components/Modal.vue -->
+
+<template>
+  <Teleport to="body">
+    <div class="modal">
+      <h1>{{ title }}</h1>
+      <slot />
+      <button @click="handleButtonClick">Hide modal</button>
+
+      <div>Username is: {{ userData.username }}</div>
+    </div>
+  </Teleport>
+</template>
+
+<script setup>
+import { inject } from "@vue/runtime-core";
+
+/**
+ * user data
+ */
+const userData = inject("userData");
+</script>
+```
