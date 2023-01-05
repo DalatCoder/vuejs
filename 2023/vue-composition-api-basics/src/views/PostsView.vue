@@ -3,24 +3,22 @@
     <h1>Posts</h1>
 
     <ul>
-      <li>
-        <router-link to="/posts/1">Post 1</router-link>
-      </li>
-      <li>
-        <router-link to="/posts/2">Post 2</router-link>
-      </li>
-      <li>
-        <router-link to="/posts/3">Post 3</router-link>
-      </li>
-      <li>
-        <router-link to="/posts/4">Post 4</router-link>
-      </li>
-      <li>
-        <router-link to="/posts/5">Post 5</router-link>
+      <li v-for="post in posts" :key="post.id">
+        <router-link :to="`/posts/${post.id}`">{{ post.title }}</router-link>
       </li>
     </ul>
   </div>
 </template>
+
+<script setup>
+import { ref } from "@vue/reactivity";
+
+const postData = [1, 2, 3, 4, 5, 6, 7].map((id) => ({
+  id,
+  title: `Post ${id}`,
+}));
+const posts = ref(postData);
+</script>
 
 <style scoped>
 ul {
