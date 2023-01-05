@@ -5,9 +5,9 @@
     <h3>{{ counter.counterTitle }}:</h3>
 
     <div>
-      <button class="btn">-</button>
-      <span class="counter">{{ count }}</span>
-      <button class="btn">+</button>
+      <button @click="counter.decreaseCounter()" class="btn">-</button>
+      <span class="counter">{{ counter.count }}</span>
+      <button @click="counter.increaseCounter()" class="btn">+</button>
     </div>
 
     <p>This counter is</p>
@@ -24,7 +24,6 @@ import { vAutofocus } from "@/directives/vAutofocus";
 import { useCounterStore } from "@/stores/counter";
 
 const counter = useCounterStore();
-const { count } = counter;
 </script>
 
 <!-- 
