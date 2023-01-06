@@ -11,7 +11,7 @@ export const useNotesStore = defineStore("notes", () => {
   const addNote = async (newNote) => {
     await addDoc(notesCollectionRef, {
       content: newNote.content,
-      createdAt: new Date(),
+      createdAt: (new Date()).getTime(),
     });
   };
 
