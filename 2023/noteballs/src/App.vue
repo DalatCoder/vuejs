@@ -8,6 +8,20 @@
 
 <script setup>
 import Navbar from "@/components/Layout/Navbar.vue";
+import { useNotesStore } from "@/stores/notes";
+import { onMounted } from "@vue/runtime-core";
+
+/**
+ * store
+ */
+const notesStore = useNotesStore();
+
+/**
+ * mounted
+ */
+onMounted(() => {
+  notesStore.getNotes();
+});
 </script>
 
 <style>

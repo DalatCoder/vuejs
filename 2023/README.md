@@ -84,6 +84,8 @@
     - [Create app \& install firebase](#create-app--install-firebase)
     - [Setup Firestore Database](#setup-firestore-database)
     - [Connect to DB](#connect-to-db)
+  - [Firebase CRUD](#firebase-crud)
+    - [Get Notes from Firestore](#get-notes-from-firestore)
 
 ## 1. Introduction
 
@@ -3260,4 +3262,85 @@ Setup `db` in `store`
 // @/stores/notes.js
 
 import { db } from "@/js/firebase";
+```
+
+## Firebase CRUD
+
+### Get Notes from Firestore
+
+Set up `vite.config.js`
+
+[Issue](https://github.com/firebase/firebase-js-sdk/issues/6926)
+
+```js
+import { fileURLToPath, URL } from "node:url";
+
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  optimizeDeps: {
+    exclude: [
+      "firebase",
+      "firebase/app",
+      "firebase/auth",
+      "firebase/firestore",
+      "firebase/analytics",
+    ],
+  },
+});
+```
+
+Query all documents from a collection at a specific time
+
+```js
+// @/stores/notes.js
+
+import { defineStore } from "pinia";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/js/firebase";
+
+export const useNotesStore = defineStore("notes", () => {
+  const getNotes = async () => {
+    const querySnapshot = await getDocs(collection(db, "notes"));
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data());
+    });
+  };
+
+  return {
+    getNotes,
+  };
+});
+```
+
+Invoke `getNotes` function on `onMounted` hook
+
+```vue
+<!-- @/App.vue -->
+
+<script setup>
+import Navbar from "@/components/Layout/Navbar.vue";
+import { useNotesStore } from "@/stores/notes";
+import { onMounted } from "@vue/runtime-core";
+
+/**
+ * store
+ */
+const notesStore = useNotesStore();
+
+/**
+ * mounted
+ */
+onMounted(() => {
+  notesStore.getNotes();
+});
+</script>
 ```
