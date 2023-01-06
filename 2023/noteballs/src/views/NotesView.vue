@@ -11,7 +11,15 @@
         </button>
       </template>
     </NoteForm>
-    <Note v-for="note in notesStore.notes" :key="note.id" :note="note" />
+
+    <progress
+      v-if="!notesStore.notesLoaded"
+      class="progress is-large is-success"
+      max="100"
+    />
+    <template v-else>
+      <Note v-for="note in notesStore.notes" :key="note.id" :note="note" />
+    </template>
   </div>
 </template>
 

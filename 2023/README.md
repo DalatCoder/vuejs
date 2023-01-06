@@ -92,6 +92,7 @@
     - [Update note](#update-note)
     - [Order notes by date](#order-notes-by-date)
     - [Display Date on Note](#display-date-on-note)
+    - [Add a progress bar](#add-a-progress-bar)
 
 ## 1. Introduction
 
@@ -3449,4 +3450,19 @@ const dateFormatted = computed(() => {
 
   return useDateFormat(date, "DD-MM-YYYY HH:mm:ss").value;
 });
+```
+
+### Add a progress bar
+
+```vue
+<template>
+  <progress
+    v-if="!notesStore.notesLoaded"
+    class="progress is-large is-success"
+    max="100"
+  />
+  <template v-else>
+    <Note v-for="note in notesStore.notes" :key="note.id" :note="note" />
+  </template>
+</template>
 ```

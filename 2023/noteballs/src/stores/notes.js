@@ -18,6 +18,7 @@ const notesCollectionRef = collection(db, "notes");
 
 export const useNotesStore = defineStore("notes", () => {
   const notes = ref([]);
+  const notesLoaded = ref(false);
 
   const addNote = async (newNote) => {
     await addDoc(notesCollectionRef, {
@@ -31,6 +32,7 @@ export const useNotesStore = defineStore("notes", () => {
   };
 
   const getNotes = async () => {
+    notesLoaded.value = false;
     const querySnapshot = await getDocs(notesCollectionRef);
 
     const data = [];
@@ -43,10 +45,12 @@ export const useNotesStore = defineStore("notes", () => {
     });
 
     notes.value = data;
+    notesLoaded.value = true;
   };
 
   const getNotesRealtime = () => {
     const q = query(notesCollectionRef, orderBy("createdAt", "desc"));
+    notesLoaded.value = false;
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const data = [];
@@ -59,6 +63,10 @@ export const useNotesStore = defineStore("notes", () => {
       });
 
       notes.value = data;
+
+      if (!notesLoaded.value) {
+        notesLoaded.value = true;
+      }
     });
 
     // stop listening
@@ -82,6 +90,7 @@ export const useNotesStore = defineStore("notes", () => {
 
   return {
     notes,
+    notesLoaded,
     addNote,
     getNotes,
     getNotesRealtime,
