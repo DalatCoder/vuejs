@@ -4,12 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/js/firebase";
 
 export const useNotesStore = defineStore("notes", () => {
-  const notes = ref([
-    {
-      id: 1,
-      content: "test",
-    },
-  ]);
+  const notes = ref([]);
 
   const addNote = (newNote) => {
     notes.value.unshift(newNote);
@@ -21,9 +16,16 @@ export const useNotesStore = defineStore("notes", () => {
 
   const getNotes = async () => {
     const querySnapshot = await getDocs(collection(db, "notes"));
+
+    const data = [];
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
+      data.push({
+        id: doc.id,
+        content: doc.data().content,
+      });
     });
+
+    notes.value = data;
   };
 
   const getNoteById = (id) => {

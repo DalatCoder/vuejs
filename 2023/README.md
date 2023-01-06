@@ -3310,9 +3310,16 @@ import { db } from "@/js/firebase";
 export const useNotesStore = defineStore("notes", () => {
   const getNotes = async () => {
     const querySnapshot = await getDocs(collection(db, "notes"));
+
+    const data = [];
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
+      data.push({
+        id: doc.id,
+        content: doc.data().content,
+      });
     });
+
+    notes.value = data;
   };
 
   return {
