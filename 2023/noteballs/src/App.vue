@@ -20,7 +20,7 @@ const notesStore = useNotesStore();
  * mounted
  */
 onMounted(() => {
-  notesStore.getNotes();
+  notesStore.getNotesRealtime();
 });
 </script>
 

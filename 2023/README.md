@@ -86,6 +86,7 @@
     - [Connect to DB](#connect-to-db)
   - [Firebase CRUD](#firebase-crud)
     - [Get Notes from Firestore](#get-notes-from-firestore)
+    - [Get Notes in Realtime](#get-notes-in-realtime)
 
 ## 1. Introduction
 
@@ -3350,4 +3351,27 @@ onMounted(() => {
   notesStore.getNotes();
 });
 </script>
+```
+
+### Get Notes in Realtime
+
+```js
+const getNotesRealtime = () => {
+  const c = collection(db, "notes");
+
+  const unsubscribe = onSnapshot(c, (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      data.push({
+        id: doc.id,
+        content: doc.data().content,
+      });
+    });
+
+    notes.value = data;
+  });
+
+  // stop listening
+  // unsubscribe()
+};
 ```
