@@ -77,6 +77,7 @@
     - [Setup](#setup)
     - [Emit events](#emit-events)
     - [Click outside modal](#click-outside-modal)
+    - [Keyboard control (lifecycle hooks)](#keyboard-control-lifecycle-hooks)
 
 ## 1. Introduction
 
@@ -3105,5 +3106,51 @@ const handleOnSubmitClicked = () => {
  */
 const modalCardRef = ref(null);
 onClickOutside(modalCardRef, handleOnCancelClicked);
+</script>
+```
+
+### Keyboard control (lifecycle hooks)
+
+```vue
+<script setup>
+import { ref } from "@vue/reactivity";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
+import { onClickOutside } from "@vueuse/core";
+
+/**
+ * events
+ */
+const emit = defineEmits(["onCancel", "onSubmit"]);
+
+const handleOnCancelClicked = () => {
+  emit("onCancel");
+};
+
+const handleOnSubmitClicked = () => {
+  emit("onSubmit");
+};
+
+/**
+ * click outside
+ */
+const modalCardRef = ref(null);
+onClickOutside(modalCardRef, handleOnCancelClicked);
+
+/**
+ * keyboard control
+ */
+const handleKeyboard = (event) => {
+  if (event.key === "Escape") {
+    handleOnCancelClicked();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("keyup", handleKeyboard);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keyup", handleKeyboard);
+});
 </script>
 ```

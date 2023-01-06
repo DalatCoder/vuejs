@@ -25,6 +25,7 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 import { onClickOutside } from "@vueuse/core";
 
 /**
@@ -45,4 +46,21 @@ const handleOnSubmitClicked = () => {
  */
 const modalCardRef = ref(null);
 onClickOutside(modalCardRef, handleOnCancelClicked);
+
+/**
+ * keyboard control
+ */
+const handleKeyboard = (event) => {
+  if (event.key === "Escape") {
+    handleOnCancelClicked();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("keyup", handleKeyboard);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keyup", handleKeyboard);
+});
 </script>
