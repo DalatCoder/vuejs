@@ -16,6 +16,11 @@ const routes = [
     name: "stats",
     component: () => import("@/views/StatsView.vue"),
   },
+  {
+    path: "/auth",
+    name: "auth",
+    component: () => import("@/views/AuthView.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -94,6 +94,8 @@
     - [18.7. Display Date on Note](#187-display-date-on-note)
     - [18.8. Add a progress bar](#188-add-a-progress-bar)
     - [18.9. Show placeholder when no notes](#189-show-placeholder-when-no-notes)
+  - [Firebase Authentication](#firebase-authentication)
+    - [Login \& Register page](#login--register-page)
 
 ## 1. Introduction
 
@@ -3488,4 +3490,102 @@ const dateFormatted = computed(() => {
     </div>
   </template>
 </template>
+```
+
+## Firebase Authentication
+
+### Login & Register page
+
+Setup routers
+
+```js
+import { createRouter, createWebHashHistory } from "vue-router";
+
+const routes = [
+  {
+    path: "/",
+    name: "notes",
+    component: () => import("@/views/NotesView.vue"),
+  },
+  {
+    path: "/edit/:id",
+    name: "editNote",
+    component: () => import("@/views/EditNote.vue"),
+  },
+  {
+    path: "/stats",
+    name: "stats",
+    component: () => import("@/views/StatsView.vue"),
+  },
+  {
+    path: "/auth",
+    name: "auth",
+    component: () => import("@/views/AuthView.vue"),
+  },
+];
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
+
+export default router;
+```
+
+Basic auth page with 2 tabs
+
+```vue
+<!-- @/views/AuthView.vue -->
+
+<template>
+  <div class="auth">
+    <div class="tabs is-centered">
+      <ul>
+        <li :class="{ 'is-active': !register }">
+          <a @click.prevent="register = false">Login</a>
+        </li>
+        <li :class="{ 'is-active': register }">
+          <a @click.prevent="register = true">Register</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card auth-form">
+      <div class="card-content">
+        <div class="title has-text-centered">{{ formTitle }}</div>
+        <div class="content">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum non
+          pariatur ipsum repellendus nam, modi, omnis neque consequuntur
+          laudantium labore doloribus libero sed, voluptas perferendis explicabo
+          at nisi distinctio temporibus.
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "@vue/reactivity";
+import { computed } from "@vue/runtime-core";
+
+/**
+ * register / login
+ */
+const register = ref(false);
+
+/**
+ * form title
+ */
+const formTitle = computed(() => {
+  if (register.value) return "Register";
+  return "Login";
+});
+</script>
+
+<style>
+.auth-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+</style>
 ```
