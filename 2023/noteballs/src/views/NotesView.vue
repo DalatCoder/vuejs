@@ -1,8 +1,12 @@
 <template>
   <div class="notes">
-    <NoteForm v-model="newNote" ref="noteFormRef">
+    <NoteForm v-model="newNote" ref="noteFormRef" placeholder="Add a new note">
       <template #buttons>
-        <button @click="addNote" class="button is-link has-background-success">
+        <button
+          @click="addNote"
+          class="button is-link has-background-success"
+          :disabled="!newNote"
+        >
           Add New Note
         </button>
       </template>
@@ -16,7 +20,7 @@ import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 
 import Note from "@/components/Notes/Note.vue";
-import NoteForm from "../components/Notes/NoteForm.vue";
+import NoteForm from "@/components/Notes/NoteForm.vue";
 
 import { useNotesStore } from "@/stores/notes";
 
