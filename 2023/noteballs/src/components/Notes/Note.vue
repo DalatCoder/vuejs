@@ -4,8 +4,9 @@
       <div class="content">
         {{ note.content }}
 
-        <div class="has-text-right has-text-grey-light mt-2">
-          <small>{{ characterLength }}</small>
+        <div class="columns is-mobile has-text-grey-light mt-2">
+          <small class="column">{{ dateFormatted }}</small>
+          <small class="column has-text-right">{{ characterLength }}</small>
         </div>
       </div>
     </div>
@@ -28,13 +29,22 @@
 
 <script setup>
 import { computed, reactive } from "@vue/runtime-core";
+import { useDateFormat } from "@vueuse/core";
 import { useNotesStore } from "@/stores/notes";
-import DeleteModal from "./DeleteModal.vue";
+import DeleteModal from "@/components/Notes/DeleteModal.vue";
 
 /**
  * store
  */
 const notesStore = useNotesStore();
+
+/**
+ * date formatted
+ */
+const dateFormatted = computed(() => {
+  const date = new Date(+props.note.createdAt);
+  return useDateFormat(date, "DD-MM-YYYY @ HH:mm:ss").value;
+});
 
 /**
  * props

@@ -91,6 +91,7 @@
     - [Delete note](#delete-note)
     - [Update note](#update-note)
     - [Order notes by date](#order-notes-by-date)
+    - [Display Date on Note](#display-date-on-note)
 
 ## 1. Introduction
 
@@ -3435,4 +3436,17 @@ const getNotesRealtime = () => {
   // stop listening
   // unsubscribe()
 };
+```
+
+### Display Date on Note
+
+Using `useDateFormat` composable from `@vueuse/core`
+
+```js
+const dateFormatted = computed(() => {
+  // pass timestamp to create new Date object
+  const date = new Date(+props.note.createdAt);
+
+  return useDateFormat(date, "DD-MM-YYYY HH:mm:ss").value;
+});
 ```

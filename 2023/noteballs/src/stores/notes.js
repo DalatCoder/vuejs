@@ -38,6 +38,7 @@ export const useNotesStore = defineStore("notes", () => {
       data.push({
         id: doc.id,
         content: doc.data().content,
+        createdAt: doc.data().createdAt,
       });
     });
 
@@ -53,6 +54,7 @@ export const useNotesStore = defineStore("notes", () => {
         data.push({
           id: doc.id,
           content: doc.data().content,
+          createdAt: doc.data().createdAt,
         });
       });
 
