@@ -97,6 +97,8 @@
   - [Firebase Authentication](#firebase-authentication)
     - [Login \& Register page](#login--register-page)
     - [Firestore authentication \& auth store](#firestore-authentication--auth-store)
+    - [Register user](#register-user)
+    - [Logout user](#logout-user)
 
 ## 1. Introduction
 
@@ -3634,3 +3636,37 @@ import { auth } from "@/js/firebase";
 
 export const useAuthStore = defineStore("auth", () => {});
 ```
+
+### Register user
+
+```js
+import { defineStore } from "pinia";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+import { auth } from "@/js/firebase";
+
+export const useAuthStore = defineStore("auth", () => {
+  const registerUser = (credentials) => {
+    createUserWithEmailAndPassword(
+      auth,
+      credentials.email,
+      credentials.password
+    )
+      .then((userCredential) => {
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        console.log(errorCode, errorMessage);
+      });
+  };
+
+  return {
+    registerUser,
+  };
+});
+```
+
+### Logout user

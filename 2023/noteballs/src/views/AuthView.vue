@@ -54,6 +54,13 @@ import { reactive, ref } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 import { vAutofocus } from "@/directives/vAutofocus.js";
 
+import { useAuthStore } from "@/stores/auth";
+
+/**
+ * store
+ */
+const authStore = useAuthStore();
+
 /**
  * register / login
  */
@@ -85,7 +92,7 @@ const onSubmit = () => {
   }
 
   if (register.value) {
-    console.log("register user");
+    authStore.registerUser(credentials);
   } else {
     console.log("login user");
   }
