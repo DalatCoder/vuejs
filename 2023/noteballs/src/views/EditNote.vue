@@ -46,13 +46,13 @@ const router = useRouter();
 const notesStore = useNotesStore();
 
 const noteContent = ref("");
-noteContent.value = notesStore.getNoteById(+route.params.id)?.content || "";
+noteContent.value = notesStore.getNoteById(route.params.id)?.content || "";
 
 /**
  * Save clicked
  */
 const handleSaveClicked = () => {
-  notesStore.updateNote(+route.params.id, noteContent.value);
+  notesStore.updateNote(route.params.id, noteContent.value);
   router.push({
     name: "notes",
   });
@@ -62,21 +62,4 @@ const handleSaveClicked = () => {
  * Watch
  */
 useWatchCharacters(noteContent);
-
-/**
- * keyboard control
- */
-const handleKeyControl = (event) => {
-  if (event.key === "Enter") {
-    handleSaveClicked();
-  }
-};
-
-onMounted(() => {
-  document.addEventListener("keyup", handleKeyControl);
-});
-
-onUnmounted(() => {
-  document.removeEventListener("keyup", handleKeyControl);
-});
 </script>

@@ -89,6 +89,7 @@
     - [Get Notes in Realtime](#get-notes-in-realtime)
     - [Add new note](#add-new-note)
     - [Delete note](#delete-note)
+    - [Update note](#update-note)
 
 ## 1. Introduction
 
@@ -3398,5 +3399,15 @@ const addNote = async (newNote) => {
 ```js
 const deleteNote = async (note) => {
   await deleteDoc(doc(collection(db, "notes"), note.id));
+};
+```
+
+### Update note
+
+```js
+const updateNote = async (id, content) => {
+  await updateDoc(doc(collection(db, "notes"), id), {
+    content,
+  });
 };
 ```
