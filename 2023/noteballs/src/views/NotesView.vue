@@ -25,21 +25,19 @@
       </div>
     </div>
 
-    <div v-for="note in notes" class="card mb-4" :key="note.id">
-      <div class="card-content">
-        <div class="content">{{ note.content }}</div>
-      </div>
-      <footer class="card-footer">
-        <a href="#" class="card-footer-item">Edit</a>
-        <a href="#" class="card-footer-item">Delete</a>
-      </footer>
-    </div>
+    <Note
+      v-for="note in notes"
+      :key="note.id"
+      :note="note"
+      @deleteClicked="deleteNote"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
+import Note from "@/components/Notes/Note.vue";
 
 /**
  * Notes
@@ -62,5 +60,9 @@ const addNote = () => {
 
   newNote.value = "";
   newNoteRef.value.focus();
+};
+
+const deleteNote = (note) => {
+  notes.value = notes.value.filter((n) => n.id !== note.id);
 };
 </script>
