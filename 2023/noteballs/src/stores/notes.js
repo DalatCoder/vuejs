@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { collection, getDocs, onSnapshot, addDoc } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, doc, addDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/js/firebase";
 
 const notesCollectionRef = collection(db, "notes");
@@ -15,8 +15,8 @@ export const useNotesStore = defineStore("notes", () => {
     });
   };
 
-  const deleteNote = (note) => {
-    notes.value = notes.value.filter((n) => n.id !== note.id);
+  const deleteNote = async (note) => {
+    await deleteDoc(doc(notesCollectionRef, note.id))
   };
 
   const getNotes = async () => {

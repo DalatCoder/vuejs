@@ -88,6 +88,7 @@
     - [Get Notes from Firestore](#get-notes-from-firestore)
     - [Get Notes in Realtime](#get-notes-in-realtime)
     - [Add new note](#add-new-note)
+    - [Delete note](#delete-note)
 
 ## 1. Introduction
 
@@ -3389,5 +3390,13 @@ const addNote = async (newNote) => {
   });
 
   console.log(newDoc);
+};
+```
+
+### Delete note
+
+```js
+const deleteNote = async (note) => {
+  await deleteDoc(doc(collection(db, "notes"), note.id));
 };
 ```
