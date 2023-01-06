@@ -25,12 +25,7 @@
       </div>
     </div>
 
-    <Note
-      v-for="note in notes"
-      :key="note.id"
-      :note="note"
-      @deleteClicked="deleteNote"
-    />
+    <Note v-for="note in notesStore.notes" :key="note.id" :note="note" />
   </div>
 </template>
 
@@ -39,12 +34,18 @@ import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 import Note from "@/components/Notes/Note.vue";
 
+import { useNotesStore } from "@/stores/notes";
+
+/**
+ * Store
+ */
+const notesStore = useNotesStore();
+
 /**
  * Notes
  */
 const newNote = ref("");
 const newNoteRef = ref(null);
-const notes = ref([]);
 
 onMounted(() => {
   newNoteRef.value.focus();
@@ -56,13 +57,9 @@ const addNote = () => {
     content: newNote.value,
   };
 
-  notes.value.unshift(note);
+  notesStore.addNote(note);
 
   newNote.value = "";
   newNoteRef.value.focus();
-};
-
-const deleteNote = (note) => {
-  notes.value = notes.value.filter((n) => n.id !== note.id);
 };
 </script>

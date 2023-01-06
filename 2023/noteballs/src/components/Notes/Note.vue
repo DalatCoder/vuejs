@@ -20,6 +20,12 @@
 
 <script setup>
 import { computed } from "@vue/runtime-core";
+import { useNotesStore } from "@/stores/notes";
+
+/**
+ * store
+ */
+const notesStore = useNotesStore();
 
 /**
  * props
@@ -30,11 +36,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-/**
- * Emits
- */
-const emit = defineEmits(["deleteClicked"]);
 
 /**
  * Character length
@@ -49,6 +50,6 @@ const characterLength = computed(() => {
  * Handle delete clicked
  */
 const handleDeleteClicked = () => {
-  emit("deleteClicked", props.note);
+  notesStore.deleteNote(props.note);
 };
 </script>
