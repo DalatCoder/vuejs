@@ -17,7 +17,6 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { onMounted } from "@vue/runtime-core";
 
 import Note from "@/components/Notes/Note.vue";
 import NoteForm from "@/components/Notes/NoteForm.vue";
@@ -34,10 +33,6 @@ const notesStore = useNotesStore();
  */
 const newNote = ref("");
 const noteFormRef = ref(null);
-
-onMounted(() => {
-  noteFormRef.value.focusTextarea();
-});
 
 const addNote = () => {
   const note = {

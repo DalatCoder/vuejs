@@ -68,6 +68,8 @@
     - [Get post content](#get-post-content)
     - [Save note](#save-note)
     - [Build stats page](#build-stats-page)
+  - [Noteballs: Directives, watchers \& composables](#noteballs-directives-watchers--composables)
+    - [`v-autoFocus`](#v-autofocus)
 
 ## 1. Introduction
 
@@ -2775,4 +2777,50 @@ import { useNotesStore } from "@/stores/notes";
 
 const notesStore = useNotesStore();
 </script>
+```
+
+## Noteballs: Directives, watchers & composables
+
+### `v-autoFocus`
+
+Define customm directive
+
+```js
+/**
+ * directives
+ */
+const vAutofocus = {
+  mounted: (element) => {
+    element.focus();
+  },
+};
+```
+
+Using custom directive
+
+```vue
+<template>
+  <div class="card p-4 mb-5" :class="`has-background-${bgColor}-dark `">
+    <label v-if="label" class="label has-text-white">{{ label }}</label>
+
+    <div class="field">
+      <div class="control">
+        <textarea
+          :value="modelValue"
+          @input="$emit('update:modelValue', $event.target.value)"
+          class="textarea"
+          :placeholder="placeholder"
+          ref="textareaRef"
+          v-autofocus
+        />
+      </div>
+    </div>
+
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <slot name="buttons" />
+      </div>
+    </div>
+  </div>
+</template>
 ```
