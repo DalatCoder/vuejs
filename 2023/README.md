@@ -93,6 +93,7 @@
     - [Order notes by date](#order-notes-by-date)
     - [Display Date on Note](#display-date-on-note)
     - [Add a progress bar](#add-a-progress-bar)
+    - [Show placeholder when no notes](#show-placeholder-when-no-notes)
 
 ## 1. Introduction
 
@@ -3463,6 +3464,28 @@ const dateFormatted = computed(() => {
   />
   <template v-else>
     <Note v-for="note in notesStore.notes" :key="note.id" :note="note" />
+  </template>
+</template>
+```
+
+### Show placeholder when no notes
+
+```vue
+<template>
+  <progress
+    v-if="!notesStore.notesLoaded"
+    class="progress is-large is-success"
+    max="100"
+  />
+  <template v-else>
+    <Note v-for="note in notesStore.notes" :key="note.id" :note="note" />
+
+    <div
+      v-if="!notesStore.notes || !notesStore.notes.length"
+      class="is-size-4 has-text-centered has-text-grey-light is-family-monospace py-6"
+    >
+      No notes here yet...
+    </div>
   </template>
 </template>
 ```
