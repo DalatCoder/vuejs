@@ -23,6 +23,7 @@ import NoteForm from "@/components/Notes/NoteForm.vue";
 
 import { useNotesStore } from "@/stores/notes";
 import { useWatchCharacters } from "@/use/useWatchCharacters";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 
 /**
  * Store
@@ -36,6 +37,8 @@ const newNote = ref("");
 const noteFormRef = ref(null);
 
 const addNote = () => {
+  if (!newNote.value.trim()) return;
+
   const note = {
     id: new Date().getTime(),
     content: newNote.value,
@@ -51,4 +54,21 @@ const addNote = () => {
  * Watch
  */
 useWatchCharacters(newNote);
+
+/**
+ * keyboard control
+ */
+const handleKeyControl = (event) => {
+  if (event.key === "Enter") {
+    addNote();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("keyup", handleKeyControl);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keyup", handleKeyControl);
+});
 </script>

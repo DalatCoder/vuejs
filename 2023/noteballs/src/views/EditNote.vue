@@ -32,6 +32,7 @@ import { useNotesStore } from "@/stores/notes";
 import { useWatchCharacters } from "@/use/useWatchCharacters";
 
 import NoteForm from "@/components/Notes/NoteForm.vue";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 
 /**
  * Routes
@@ -61,4 +62,21 @@ const handleSaveClicked = () => {
  * Watch
  */
 useWatchCharacters(noteContent);
+
+/**
+ * keyboard control
+ */
+const handleKeyControl = (event) => {
+  if (event.key === "Enter") {
+    handleSaveClicked();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("keyup", handleKeyControl);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keyup", handleKeyControl);
+});
 </script>

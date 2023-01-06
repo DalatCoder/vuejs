@@ -26,6 +26,7 @@
 <script setup>
 import { ref } from "@vue/reactivity";
 import { vAutofocus } from "@/directives/vAutofocus";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 
 /**
  * props
@@ -65,7 +66,6 @@ const focusTextarea = () => {
 /**
  * expose methods to parent component
  */
-
 defineExpose({
   focusTextarea,
 });
