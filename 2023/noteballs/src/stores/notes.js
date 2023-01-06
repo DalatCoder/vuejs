@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 export const useNotesStore = defineStore("notes", () => {
   const notes = ref([
@@ -31,11 +31,18 @@ export const useNotesStore = defineStore("notes", () => {
     });
   };
 
+  const totalNotesCount = computed(() => notes.value.length);
+  const totalCharactersCount = computed(() =>
+    notes.value.reduce((acc, cur) => acc + cur.content.length, 0)
+  );
+
   return {
     notes,
     addNote,
     deleteNote,
     getNoteById,
     updateNote,
+    totalNotesCount,
+    totalCharactersCount,
   };
 });
