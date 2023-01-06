@@ -72,6 +72,7 @@
     - [`v-autoFocus`](#v-autofocus)
     - [Watchers](#watchers)
     - [Composables](#composables)
+    - [Click outside composable](#click-outside-composable)
 
 ## 1. Introduction
 
@@ -2904,3 +2905,7 @@ const addNote = () => {
 useWatchCharacters(newNote);
 </script>
 ```
+
+### Click outside composable
+
+Install `vueuse` package: `npm install @vueuse/core`
