@@ -52,32 +52,32 @@
     - [10.3. State](#103-state)
     - [10.4. Actions](#104-actions)
     - [10.5. Getters](#105-getters)
-  - [Noteballs: setup \& routers](#noteballs-setup--routers)
-    - [Setup project](#setup-project)
-    - [Setup routers](#setup-routers)
-  - [Noteballs: bulma \& design](#noteballs-bulma--design)
-    - [Install Bulma](#install-bulma)
-  - [Noteballs: Data, Methods, Components, Computed \& Emit](#noteballs-data-methods-components-computed--emit)
-    - [Add new note](#add-new-note)
-    - [Note component](#note-component)
-  - [Noteballs: State management](#noteballs-state-management)
-    - [Install \& Setup `pinia`](#install--setup-pinia)
-    - [Edit note](#edit-note)
-    - [Fix the `focus`](#fix-the-focus)
-    - [Add more `props`](#add-more-props)
-    - [Get post content](#get-post-content)
-    - [Save note](#save-note)
-    - [Build stats page](#build-stats-page)
-  - [Noteballs: Directives, watchers \& composables](#noteballs-directives-watchers--composables)
-    - [`v-autoFocus`](#v-autofocus)
-    - [Watchers](#watchers)
-    - [Composables](#composables)
-    - [Click outside composable](#click-outside-composable)
-  - [Noteballs: Delete Modal](#noteballs-delete-modal)
-    - [Setup](#setup)
-    - [Emit events](#emit-events)
-    - [Click outside modal](#click-outside-modal)
-    - [Keyboard control (lifecycle hooks)](#keyboard-control-lifecycle-hooks)
+  - [11. Noteballs: setup \& routers](#11-noteballs-setup--routers)
+    - [11.1. Setup project](#111-setup-project)
+    - [11.2. Setup routers](#112-setup-routers)
+  - [12. Noteballs: bulma \& design](#12-noteballs-bulma--design)
+    - [12.1. Install Bulma](#121-install-bulma)
+  - [13. Noteballs: Data, Methods, Components, Computed \& Emit](#13-noteballs-data-methods-components-computed--emit)
+    - [13.1. Add new note](#131-add-new-note)
+    - [13.2. Note component](#132-note-component)
+  - [14. Noteballs: State management](#14-noteballs-state-management)
+    - [14.1. Install \& Setup `pinia`](#141-install--setup-pinia)
+    - [14.2. Edit note](#142-edit-note)
+    - [14.3. Fix the `focus`](#143-fix-the-focus)
+    - [14.4. Add more `props`](#144-add-more-props)
+    - [14.5. Get post content](#145-get-post-content)
+    - [14.6. Save note](#146-save-note)
+    - [14.7. Build stats page](#147-build-stats-page)
+  - [15. Noteballs: Directives, watchers \& composables](#15-noteballs-directives-watchers--composables)
+    - [15.1. `v-autoFocus`](#151-v-autofocus)
+    - [15.2. Watchers](#152-watchers)
+    - [15.3. Composables](#153-composables)
+    - [15.4. Click outside composable](#154-click-outside-composable)
+  - [16. Noteballs: Delete Modal](#16-noteballs-delete-modal)
+    - [16.1. Setup](#161-setup)
+    - [16.2. Emit events](#162-emit-events)
+    - [16.3. Click outside modal](#163-click-outside-modal)
+    - [16.4. Keyboard control (lifecycle hooks)](#164-keyboard-control-lifecycle-hooks)
 
 ## 1. Introduction
 
@@ -2006,9 +2006,9 @@ const counter = useCounterStore();
 </script>
 ```
 
-## Noteballs: setup & routers
+## 11. Noteballs: setup & routers
 
-### Setup project
+### 11.1. Setup project
 
 ```sh
 npm init vue@latest
@@ -2016,7 +2016,7 @@ npm init vue@latest
 
 Answer `no` to all questions
 
-### Setup routers
+### 11.2. Setup routers
 
 Install `vue-router@4`: `npm install vue-router@4`
 
@@ -2115,9 +2115,9 @@ import router from "./routers";
 createApp(App).use(router).mount("#app");
 ```
 
-## Noteballs: bulma & design
+## 12. Noteballs: bulma & design
 
-### Install Bulma
+### 12.1. Install Bulma
 
 ```sh
 npm install bulma
@@ -2138,9 +2138,9 @@ Import bulma
 </style>
 ```
 
-## Noteballs: Data, Methods, Components, Computed & Emit
+## 13. Noteballs: Data, Methods, Components, Computed & Emit
 
-### Add new note
+### 13.1. Add new note
 
 - 2 ways binding via `v-model`
 - event handler
@@ -2216,7 +2216,7 @@ const addNote = () => {
 </script>
 ```
 
-### Note component
+### 13.2. Note component
 
 - Define Props
 - Define Emits
@@ -2280,9 +2280,9 @@ const handleDeleteClicked = () => {
 </script>
 ```
 
-## Noteballs: State management
+## 14. Noteballs: State management
 
-### Install & Setup `pinia`
+### 14.1. Install & Setup `pinia`
 
 ```sh
 npm install pinia
@@ -2392,7 +2392,7 @@ const addNote = () => {
 </script>
 ```
 
-### Edit note
+### 14.2. Edit note
 
 Create `NoteForm` to reuse form
 
@@ -2463,7 +2463,7 @@ const emit = defineEmits(["update:modelValue"]);
 </script>
 ```
 
-### Fix the `focus`
+### 14.3. Fix the `focus`
 
 Expose methods from `child component` to focus textarea element
 
@@ -2585,7 +2585,7 @@ const addNote = () => {
 </script>
 ```
 
-### Add more `props`
+### 14.4. Add more `props`
 
 ```vue
 <!-- @/components/Notes/NoteForm.vue -->
@@ -2662,7 +2662,7 @@ defineExpose({
 </script>
 ```
 
-### Get post content
+### 14.5. Get post content
 
 ```vue
 <!-- @/views/EditNote.vue -->
@@ -2715,7 +2715,7 @@ noteContent.value = notesStore.getNoteById(+route.params.id)?.content || "";
 </script>
 ```
 
-### Save note
+### 14.6. Save note
 
 ```vue
 <script setup>
@@ -2752,7 +2752,7 @@ const handleSaveClicked = () => {
 </script>
 ```
 
-### Build stats page
+### 14.7. Build stats page
 
 ```vue
 <!-- @/views/StatsView.vue -->
@@ -2787,9 +2787,9 @@ const notesStore = useNotesStore();
 </script>
 ```
 
-## Noteballs: Directives, watchers & composables
+## 15. Noteballs: Directives, watchers & composables
 
-### `v-autoFocus`
+### 15.1. `v-autoFocus`
 
 Define customm directive
 
@@ -2833,7 +2833,7 @@ Using custom directive
 </template>
 ```
 
-### Watchers
+### 15.2. Watchers
 
 Watch the number of new notes and show alert if it's larger than 100 characters
 
@@ -2850,7 +2850,7 @@ watch(newNote, (newValue, _oldValue) => {
 </script>
 ```
 
-### Composables
+### 15.3. Composables
 
 Watch note length on both `ViewNotes` and `EditNote` pages, so instead of
 duplicating code. We can use `composable` to reuse logic.
@@ -2911,13 +2911,13 @@ useWatchCharacters(newNote);
 </script>
 ```
 
-### Click outside composable
+### 15.4. Click outside composable
 
 Install `vueuse` package: `npm install @vueuse/core`
 
-## Noteballs: Delete Modal
+## 16. Noteballs: Delete Modal
 
-### Setup
+### 16.1. Setup
 
 ```vue
 <!-- @/components/Notes/DeleteModal.vue -->
@@ -3015,7 +3015,7 @@ const modals = reactive({
 </script>
 ```
 
-### Emit events
+### 16.2. Emit events
 
 ```vue
 <!-- @/components/Notes/DeleteModal.vue -->
@@ -3054,7 +3054,7 @@ const handleOnSubmitClicked = () => {
 </script>
 ```
 
-### Click outside modal
+### 16.3. Click outside modal
 
 ```vue
 <!-- @/components/Notes/DeleteModal.vue -->
@@ -3109,7 +3109,7 @@ onClickOutside(modalCardRef, handleOnCancelClicked);
 </script>
 ```
 
-### Keyboard control (lifecycle hooks)
+### 16.4. Keyboard control (lifecycle hooks)
 
 ```vue
 <script setup>
