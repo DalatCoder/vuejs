@@ -78,6 +78,12 @@
     - [16.2. Emit events](#162-emit-events)
     - [16.3. Click outside modal](#163-click-outside-modal)
     - [16.4. Keyboard control (lifecycle hooks)](#164-keyboard-control-lifecycle-hooks)
+  - [Firebase 9](#firebase-9)
+    - [Introduction to Firebase](#introduction-to-firebase)
+    - [Create a firebase project](#create-a-firebase-project)
+    - [Create app \& install firebase](#create-app--install-firebase)
+    - [Setup Firestore Database](#setup-firestore-database)
+    - [Connect to DB](#connect-to-db)
 
 ## 1. Introduction
 
@@ -3153,4 +3159,105 @@ onUnmounted(() => {
   document.removeEventListener("keyup", handleKeyboard);
 });
 </script>
+```
+
+## Firebase 9
+
+### Introduction to Firebase
+
+Firebase is an all in one backend solution from Google. It makes it
+really easy for us to add an out of the box backend to our app without
+any complicated setup.
+
+It gives us a realtime database and there are two databases available:
+
+- The cloud store database
+- The realtime database
+
+### Create a firebase project
+
+- Go to firebase
+- Get started
+- Create new project
+- Set project name
+- Disable Google analytics
+- Wait a couple of minutes
+
+### Create app & install firebase
+
+Create an app
+
+- Create a webapp
+- Set app name
+
+Add firebase SDK
+
+- `npm install firebase`
+
+```js
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+```
+
+### Setup Firestore Database
+
+Setup
+
+- Click Firestore Database
+- Create database
+- Choose Start in test mode
+- Choose location
+
+Cloud firestore database organized into `collections`, and each collection
+contains `documents`
+
+- Create new `collection` called `notes`
+- Add some `documents`
+
+### Connect to DB
+
+[Read docs](https://firebase.google.com/docs/firestore?authuser=0&hl=en)
+
+```js
+// @/js/firebase.js
+
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCTFYx5Nydmjxed0hZNfslkXk76rlhJYfs",
+  authDomain: "noteball-39431.firebaseapp.com",
+  projectId: "noteball-39431",
+  storageBucket: "noteball-39431.appspot.com",
+  messagingSenderId: "959947377005",
+  appId: "1:959947377005:web:734934078fd7a67329f264",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+export { db };
+```
+
+Setup `db` in `store`
+
+```js
+// @/stores/notes.js
+
+import { db } from "@/js/firebase";
 ```

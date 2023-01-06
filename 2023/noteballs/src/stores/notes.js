@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { db } from "@/js/firebase";
 
 export const useNotesStore = defineStore("notes", () => {
   const notes = ref([
