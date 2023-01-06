@@ -73,6 +73,8 @@
     - [Watchers](#watchers)
     - [Composables](#composables)
     - [Click outside composable](#click-outside-composable)
+  - [Noteballs: Delete Modal](#noteballs-delete-modal)
+    - [Setup](#setup)
 
 ## 1. Introduction
 
@@ -2909,3 +2911,103 @@ useWatchCharacters(newNote);
 ### Click outside composable
 
 Install `vueuse` package: `npm install @vueuse/core`
+
+## Noteballs: Delete Modal
+
+### Setup
+
+```vue
+<!-- @/components/Notes/DeleteModal.vue -->
+
+<template>
+  <div class="modal is-active p-2">
+    <div class="modal-background"></div>
+    <div class="modal-card" ref="modalCardRef">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Delete Note?</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        Are you sure you want to delete this note?
+      </section>
+      <footer class="modal-card-foot is-justify-content-flex-end">
+        <button class="button">Cancel</button>
+        <button class="button is-danger">Delete</button>
+      </footer>
+    </div>
+  </div>
+</template>
+```
+
+```vue
+<!-- @/components/Notes/Note.vue -->
+
+<template>
+  <div class="card mb-4">
+    <div class="card-content">
+      <div class="content">
+        {{ note.content }}
+
+        <div class="has-text-right has-text-grey-light mt-2">
+          <small>{{ characterLength }}</small>
+        </div>
+      </div>
+    </div>
+    <footer class="card-footer">
+      <router-link :to="`/edit/${note.id}`" class="card-footer-item">
+        Edit
+      </router-link>
+      <a href="#" class="card-footer-item" @click.prevent="handleDeleteClicked"
+        >Delete</a
+      >
+    </footer>
+
+    <DeleteModal v-if="modals.deleteNote" />
+  </div>
+</template>
+
+<script setup>
+import { computed, reactive } from "@vue/runtime-core";
+import { useNotesStore } from "@/stores/notes";
+import DeleteModal from "./DeleteModal.vue";
+
+/**
+ * store
+ */
+const notesStore = useNotesStore();
+
+/**
+ * props
+ */
+const props = defineProps({
+  note: {
+    type: Object,
+    required: true,
+  },
+});
+
+/**
+ * Character length
+ */
+const characterLength = computed(() => {
+  const length = props.note.content.length;
+  if (length > 1) return `${length} characters`;
+  return `${length} character`;
+});
+
+/**
+ * Handle delete clicked
+ */
+const handleDeleteClicked = () => {
+  modals.deleteNote = true;
+};
+
+/**
+ * modals
+ */
+const modals = reactive({
+  deleteNote: false,
+  editNote: false,
+});
+</script>
+```
