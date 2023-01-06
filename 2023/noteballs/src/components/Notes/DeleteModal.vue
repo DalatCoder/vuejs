@@ -10,9 +10,23 @@
         Are you sure you want to delete this note?
       </section>
       <footer class="modal-card-foot is-justify-content-flex-end">
-        <button class="button">Cancel</button>
-        <button class="button is-danger">Delete</button>
+        <button @click="handleOnCancelClicked" class="button">Cancel</button>
+        <button @click="handleOnSubmitClicked" class="button is-danger">
+          Delete
+        </button>
       </footer>
     </div>
   </div>
 </template>
+
+<script setup>
+const emit = defineEmits(["onCancel", "onSubmit"]);
+
+const handleOnCancelClicked = () => {
+  emit("onCancel");
+};
+
+const handleOnSubmitClicked = () => {
+  emit("onSubmit");
+};
+</script>

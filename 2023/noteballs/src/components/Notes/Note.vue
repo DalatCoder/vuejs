@@ -18,7 +18,11 @@
       >
     </footer>
 
-    <DeleteModal v-if="modals.deleteNote" />
+    <DeleteModal
+      v-if="modals.deleteNote"
+      @onCancel="handleOnModalCancelClicked"
+      @onSubmit="handleOnModalSubmitClicked"
+    />
   </div>
 </template>
 
@@ -65,4 +69,12 @@ const modals = reactive({
   deleteNote: false,
   editNote: false,
 });
+
+const handleOnModalCancelClicked = () => {
+  modals.deleteNote = false;
+};
+
+const handleOnModalSubmitClicked = () => {
+  modals.deleteNote = false;
+};
 </script>
