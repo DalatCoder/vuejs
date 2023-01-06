@@ -70,6 +70,8 @@
     - [Build stats page](#build-stats-page)
   - [Noteballs: Directives, watchers \& composables](#noteballs-directives-watchers--composables)
     - [`v-autoFocus`](#v-autofocus)
+    - [Watchers](#watchers)
+    - [Composables](#composables)
 
 ## 1. Introduction
 
@@ -2823,4 +2825,82 @@ Using custom directive
     </div>
   </div>
 </template>
+```
+
+### Watchers
+
+Watch the number of new notes and show alert if it's larger than 100 characters
+
+```vue
+<script setup>
+/**
+ * Watch
+ */
+watch(newNote, (newValue, _oldValue) => {
+  if (newValue.length >= 100) {
+    alert("Only 100 characters allowed");
+  }
+});
+</script>
+```
+
+### Composables
+
+Watch note length on both `ViewNotes` and `EditNote` pages, so instead of
+duplicating code. We can use `composable` to reuse logic.
+
+```js
+import { watch } from "vue";
+
+export const useWatchCharacters = (valueToWatch) => {
+  watch(valueToWatch, (newValue, _oldValue) => {
+    if (newValue.length >= 100) {
+      alert("Only 100 characters allowed");
+    }
+  });
+};
+```
+
+Using `composable`
+
+```vue
+<!-- @/views/NotesView.vue -->
+
+<script setup>
+import { ref } from "@vue/reactivity";
+
+import Note from "@/components/Notes/Note.vue";
+import NoteForm from "@/components/Notes/NoteForm.vue";
+
+import { useNotesStore } from "@/stores/notes";
+import { useWatchCharacters } from "@/use/useWatchCharacters";
+
+/**
+ * Store
+ */
+const notesStore = useNotesStore();
+
+/**
+ * Notes
+ */
+const newNote = ref("");
+const noteFormRef = ref(null);
+
+const addNote = () => {
+  const note = {
+    id: new Date().getTime(),
+    content: newNote.value,
+  };
+
+  notesStore.addNote(note);
+
+  newNote.value = "";
+  noteFormRef.value.focusTextarea();
+};
+
+/**
+ * Watch
+ */
+useWatchCharacters(newNote);
+</script>
 ```

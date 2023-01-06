@@ -25,6 +25,7 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
+import { vAutofocus } from "@/directives/vAutofocus";
 
 /**
  * props
@@ -68,13 +69,4 @@ const focusTextarea = () => {
 defineExpose({
   focusTextarea,
 });
-
-/**
- * directives
- */
-const vAutofocus = {
-  mounted: (element) => {
-    element.focus();
-  },
-};
 </script>

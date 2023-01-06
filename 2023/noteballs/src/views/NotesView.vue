@@ -22,6 +22,7 @@ import Note from "@/components/Notes/Note.vue";
 import NoteForm from "@/components/Notes/NoteForm.vue";
 
 import { useNotesStore } from "@/stores/notes";
+import { useWatchCharacters } from "@/use/useWatchCharacters";
 
 /**
  * Store
@@ -45,4 +46,9 @@ const addNote = () => {
   newNote.value = "";
   noteFormRef.value.focusTextarea();
 };
+
+/**
+ * Watch
+ */
+useWatchCharacters(newNote);
 </script>

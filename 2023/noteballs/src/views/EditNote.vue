@@ -27,8 +27,9 @@
 <script setup>
 import { ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted } from "@vue/runtime-core";
+
 import { useNotesStore } from "@/stores/notes";
+import { useWatchCharacters } from "@/use/useWatchCharacters";
 
 import NoteForm from "@/components/Notes/NoteForm.vue";
 
@@ -55,4 +56,9 @@ const handleSaveClicked = () => {
     name: "notes",
   });
 };
+
+/**
+ * Watch
+ */
+useWatchCharacters(noteContent);
 </script>
