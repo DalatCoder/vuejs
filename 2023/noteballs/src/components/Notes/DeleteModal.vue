@@ -53,6 +53,8 @@ onClickOutside(modalCardRef, handleOnCancelClicked);
 const handleKeyboard = (event) => {
   if (event.key === "Escape") {
     handleOnCancelClicked();
+  } else if (event.key === "Enter") {
+    handleOnSubmitClicked();
   }
 };
 

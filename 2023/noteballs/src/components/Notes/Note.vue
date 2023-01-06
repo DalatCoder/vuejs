@@ -76,5 +76,6 @@ const handleOnModalCancelClicked = () => {
 
 const handleOnModalSubmitClicked = () => {
   modals.deleteNote = false;
+  notesStore.deleteNote(props.note);
 };
 </script>
