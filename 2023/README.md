@@ -96,6 +96,7 @@
     - [18.9. Show placeholder when no notes](#189-show-placeholder-when-no-notes)
   - [Firebase Authentication](#firebase-authentication)
     - [Login \& Register page](#login--register-page)
+    - [Firestore authentication \& auth store](#firestore-authentication--auth-store)
 
 ## 1. Introduction
 
@@ -3588,4 +3589,48 @@ const formTitle = computed(() => {
   margin: 0 auto;
 }
 </style>
+```
+
+### Firestore authentication & auth store
+
+Setup auth
+
+- Click Authentication
+- Choose Email/Password
+- Enable Email/Password
+- Click save
+
+[Auth docs](https://firebase.google.com/docs/auth?authuser=0&hl=en)
+
+Config firebase for auth
+
+```js
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCTFYx5Nydmjxed0hZNfslkXk76rlhJYfs",
+  authDomain: "noteball-39431.firebaseapp.com",
+  projectId: "noteball-39431",
+  storageBucket: "noteball-39431.appspot.com",
+  messagingSenderId: "959947377005",
+  appId: "1:959947377005:web:734934078fd7a67329f264",
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+export { db, auth };
+```
+
+Create new pinia store for auth
+
+```js
+import { defineStore } from "pinia";
+import { auth } from "@/js/firebase";
+
+export const useAuthStore = defineStore("auth", () => {});
 ```
