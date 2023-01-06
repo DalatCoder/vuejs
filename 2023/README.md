@@ -90,6 +90,7 @@
     - [Add new note](#add-new-note)
     - [Delete note](#delete-note)
     - [Update note](#update-note)
+    - [Order notes by date](#order-notes-by-date)
 
 ## 1. Introduction
 
@@ -3409,5 +3410,29 @@ const updateNote = async (id, content) => {
   await updateDoc(doc(collection(db, "notes"), id), {
     content,
   });
+};
+```
+
+### Order notes by date
+
+```js
+const getNotesRealtime = () => {
+  const notesCollectionRef = collection(db, "notes");
+  const q = query(notesCollectionRef, orderBy("createdAt", "desc"));
+
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      data.push({
+        id: doc.id,
+        content: doc.data().content,
+      });
+    });
+
+    notes.value = data;
+  });
+
+  // stop listening
+  // unsubscribe()
 };
 ```

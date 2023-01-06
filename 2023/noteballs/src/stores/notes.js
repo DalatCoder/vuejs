@@ -8,6 +8,9 @@ import {
   addDoc,
   deleteDoc,
   updateDoc,
+  query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { db } from "@/js/firebase";
 
@@ -42,9 +45,9 @@ export const useNotesStore = defineStore("notes", () => {
   };
 
   const getNotesRealtime = () => {
-    const c = notesCollectionRef;
+    const q = query(notesCollectionRef, orderBy("createdAt", "desc"));
 
-    const unsubscribe = onSnapshot(c, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const data = [];
       querySnapshot.forEach((doc) => {
         data.push({
