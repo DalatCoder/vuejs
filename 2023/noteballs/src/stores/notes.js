@@ -17,9 +17,25 @@ export const useNotesStore = defineStore("notes", () => {
     notes.value = notes.value.filter((n) => n.id !== note.id);
   };
 
+  const getNoteById = (id) => {
+    return notes.value.find((n) => n.id === id);
+  };
+
+  const updateNote = (id, content) => {
+    notes.value = notes.value.map((n) => {
+      if (n.id !== id) return n;
+      return {
+        ...n,
+        content,
+      };
+    });
+  };
+
   return {
     notes,
     addNote,
     deleteNote,
+    getNoteById,
+    updateNote,
   };
 });
