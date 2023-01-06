@@ -43,6 +43,7 @@
           >
             Stats
           </RouterLink>
+          <a class="navbar-item">Log out</a>
         </div>
       </div>
     </div>

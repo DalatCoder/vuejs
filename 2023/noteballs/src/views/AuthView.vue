@@ -14,20 +14,45 @@
     <div class="card auth-form">
       <div class="card-content">
         <div class="title has-text-centered">{{ formTitle }}</div>
-        <div class="content">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum non
-          pariatur ipsum repellendus nam, modi, omnis neque consequuntur
-          laudantium labore doloribus libero sed, voluptas perferendis explicabo
-          at nisi distinctio temporibus.
-        </div>
+
+        <form @submit.prevent="onSubmit">
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input
+                v-model="credentials.email"
+                type="email"
+                class="input"
+                placeholder="e.g. hieu@gmail.com"
+                v-autofocus
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input
+                v-model="credentials.password"
+                type="password"
+                class="input"
+              />
+            </div>
+          </div>
+          <div class="field is-grouped is-grouped-right">
+            <p class="control">
+              <button class="button is-primary">{{ formTitle }}</button>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
+import { reactive, ref } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
+import { vAutofocus } from "@/directives/vAutofocus.js";
 
 /**
  * register / login
@@ -41,6 +66,30 @@ const formTitle = computed(() => {
   if (register.value) return "Register";
   return "Login";
 });
+
+/**
+ * credentials
+ */
+const credentials = reactive({
+  email: "",
+  password: "",
+});
+
+/**
+ * submit
+ */
+const onSubmit = () => {
+  if (!credentials.email || !credentials.password) {
+    alert("Please enter an email and password");
+    return;
+  }
+
+  if (register.value) {
+    console.log("register user");
+  } else {
+    console.log("login user");
+  }
+};
 </script>
 
 <style>
