@@ -43,7 +43,7 @@
           >
             Stats
           </RouterLink>
-          <a class="navbar-item">Log out</a>
+          <a @click.prevent="authStore.logoutUser" class="navbar-item">Log out</a>
         </div>
       </div>
     </div>
@@ -53,6 +53,12 @@
 <script setup>
 import { ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
+import { useAuthStore } from "@/stores/auth";
+
+/**
+ * store
+ */
+const authStore = useAuthStore();
 
 /**
  * Mobile Nav

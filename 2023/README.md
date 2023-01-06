@@ -3670,3 +3670,22 @@ export const useAuthStore = defineStore("auth", () => {
 ```
 
 ### Logout user
+
+```js
+import { defineStore } from "pinia";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+
+import { auth } from "@/js/firebase";
+
+export const useAuthStore = defineStore("auth", () => {
+  const logoutUser = () => {
+    signOut(auth)
+      .then(() => {})
+      .catch((error) => {});
+  };
+
+  return {
+    logoutUser,
+  };
+});
+```
