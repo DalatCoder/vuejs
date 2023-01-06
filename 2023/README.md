@@ -62,6 +62,8 @@
     - [Note component](#note-component)
   - [Noteballs: State management](#noteballs-state-management)
     - [Install \& Setup `pinia`](#install--setup-pinia)
+    - [Edit note](#edit-note)
+    - [Fix the `focus`](#fix-the-focus)
 
 ## 1. Introduction
 
@@ -2372,6 +2374,199 @@ const addNote = () => {
 
   newNote.value = "";
   newNoteRef.value.focus();
+};
+</script>
+```
+
+### Edit note
+
+Create `NoteForm` to reuse form
+
+```vue
+<!-- @/components/Notes/NoteForm.vue -->
+
+<template>
+  <div class="card has-background-success-dark p-4 mb-5">
+    <div class="field">
+      <div class="control">
+        <textarea
+          class="textarea"
+          placeholder="Add a new note"
+          ref="newNoteRef"
+        />
+      </div>
+    </div>
+
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <slot name="buttons" />
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+Hook up textarea value with `modelValue`
+
+```vue
+<template>
+  <div class="card has-background-success-dark p-4 mb-5">
+    <div class="field">
+      <div class="control">
+        <textarea
+          :value="modelValue"
+          @input="$emit('update:modelValue', $event.target.value)"
+          class="textarea"
+          placeholder="Add a new note"
+          ref="newNoteRef"
+        />
+      </div>
+    </div>
+
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <slot name="buttons" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+/**
+ * props
+ */
+const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
+  },
+});
+
+/**
+ * emits
+ */
+const emit = defineEmits(["update:modelValue"]);
+</script>
+```
+
+### Fix the `focus`
+
+Expose methods from `child component` to focus textarea element
+
+```vue
+<!-- @/components/Notes/NoteForm.vue -->
+
+<template>
+  <div class="card has-background-success-dark p-4 mb-5">
+    <div class="field">
+      <div class="control">
+        <textarea
+          :value="modelValue"
+          @input="$emit('update:modelValue', $event.target.value)"
+          class="textarea"
+          placeholder="Add a new note"
+          ref="textareaRef"
+        />
+      </div>
+    </div>
+
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <slot name="buttons" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "@vue/reactivity";
+
+/**
+ * props
+ */
+const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
+  },
+});
+
+/**
+ * emits
+ */
+const emit = defineEmits(["update:modelValue"]);
+
+/**
+ * focus textarea
+ */
+const textareaRef = ref(null);
+
+const focusTextarea = () => {
+  textareaRef.value.focus();
+};
+
+/**
+ * expose methods to parent component
+ */
+
+defineExpose({
+  focusTextarea,
+});
+</script>
+```
+
+Invoke `exposed methods` from parent component
+
+```vue
+<!-- @/pages/NotesView.vue -->
+
+<template>
+  <div class="notes">
+    <NoteForm v-model="newNote" ref="noteFormRef">
+      <template #buttons>
+        <button @click="addNote" class="button is-link has-background-success">
+          Add New Note
+        </button>
+      </template>
+    </NoteForm>
+    <Note v-for="note in notesStore.notes" :key="note.id" :note="note" />
+  </div>
+</template>
+
+<script setup>
+import { ref } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
+
+import Note from "@/components/Notes/Note.vue";
+import NoteForm from "../components/Notes/NoteForm.vue";
+
+import { useNotesStore } from "@/stores/notes";
+
+/**
+ * Store
+ */
+const notesStore = useNotesStore();
+
+/**
+ * Notes
+ */
+const newNote = ref("");
+const noteFormRef = ref(null);
+
+onMounted(() => {
+  noteFormRef.value.focusTextarea();
+});
+
+const addNote = () => {
+  const note = {
+    id: new Date().getTime(),
+    content: newNote.value,
+  };
+
+  notesStore.addNote(note);
+
+  newNote.value = "";
+  noteFormRef.value.focusTextarea();
 };
 </script>
 ```
