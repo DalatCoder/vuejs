@@ -87,6 +87,7 @@
   - [Firebase CRUD](#firebase-crud)
     - [Get Notes from Firestore](#get-notes-from-firestore)
     - [Get Notes in Realtime](#get-notes-in-realtime)
+    - [Add new note](#add-new-note)
 
 ## 1. Introduction
 
@@ -3373,5 +3374,20 @@ const getNotesRealtime = () => {
 
   // stop listening
   // unsubscribe()
+};
+```
+
+### Add new note
+
+```js
+// auto generated id
+
+const addNote = async (newNote) => {
+  const newDoc = await addDoc(collection(db, "notes"), {
+    content: newNote.content,
+    createdAt: new Date(),
+  });
+
+  console.log(newDoc);
 };
 ```
