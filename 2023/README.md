@@ -55,6 +55,8 @@
   - [Noteballs: setup \& routers](#noteballs-setup--routers)
     - [Setup project](#setup-project)
     - [Setup routers](#setup-routers)
+  - [Noteballs: bulma \& design](#noteballs-bulma--design)
+    - [Install Bulma](#install-bulma)
 
 ## 1. Introduction
 
@@ -2090,4 +2092,27 @@ import App from "./App.vue";
 import router from "./routers";
 
 createApp(App).use(router).mount("#app");
+```
+
+## Noteballs: bulma & design
+
+### Install Bulma
+
+```sh
+npm install bulma
+```
+
+Import bulma
+
+```vue
+<template>
+  <router-link to="/" class="button">Notes</router-link>
+  <router-link to="/stats" class="button">Stats</router-link>
+
+  <router-view></router-view>
+</template>
+
+<style>
+@import "bulma/css/bulma.min.css";
+</style>
 ```

@@ -1,7 +1,15 @@
 <template>
-  <router-link to="/">Notes</router-link>
-  <router-link to="/stats">Stats</router-link>
+  <Navbar />
 
-  <router-view></router-view>
+  <div class="container is-max-desktop px-2 py-4">
+    <router-view />
+  </div>
 </template>
 
+<script setup>
+import Navbar from "./components/Layout/Navbar.vue";
+</script>
+
+<style>
+@import "bulma/css/bulma.min.css";
+</style>
