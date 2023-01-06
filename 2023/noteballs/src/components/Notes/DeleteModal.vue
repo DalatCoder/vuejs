@@ -4,7 +4,11 @@
     <div class="modal-card" ref="modalCardRef">
       <header class="modal-card-head">
         <p class="modal-card-title">Delete Note?</p>
-        <button class="delete" aria-label="close"></button>
+        <button
+          @click="handleOnCancelClicked"
+          class="delete"
+          aria-label="close"
+        ></button>
       </header>
       <section class="modal-card-body">
         Are you sure you want to delete this note?
@@ -20,6 +24,12 @@
 </template>
 
 <script setup>
+import { ref } from "@vue/reactivity";
+import { onClickOutside } from "@vueuse/core";
+
+/**
+ * events
+ */
 const emit = defineEmits(["onCancel", "onSubmit"]);
 
 const handleOnCancelClicked = () => {
@@ -29,4 +39,10 @@ const handleOnCancelClicked = () => {
 const handleOnSubmitClicked = () => {
   emit("onSubmit");
 };
+
+/**
+ * click outside
+ */
+const modalCardRef = ref(null);
+onClickOutside(modalCardRef, handleOnCancelClicked);
 </script>
