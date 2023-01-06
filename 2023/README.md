@@ -78,22 +78,22 @@
     - [16.2. Emit events](#162-emit-events)
     - [16.3. Click outside modal](#163-click-outside-modal)
     - [16.4. Keyboard control (lifecycle hooks)](#164-keyboard-control-lifecycle-hooks)
-  - [Firebase 9](#firebase-9)
-    - [Introduction to Firebase](#introduction-to-firebase)
-    - [Create a firebase project](#create-a-firebase-project)
-    - [Create app \& install firebase](#create-app--install-firebase)
-    - [Setup Firestore Database](#setup-firestore-database)
-    - [Connect to DB](#connect-to-db)
-  - [Firebase CRUD](#firebase-crud)
-    - [Get Notes from Firestore](#get-notes-from-firestore)
-    - [Get Notes in Realtime](#get-notes-in-realtime)
-    - [Add new note](#add-new-note)
-    - [Delete note](#delete-note)
-    - [Update note](#update-note)
-    - [Order notes by date](#order-notes-by-date)
-    - [Display Date on Note](#display-date-on-note)
-    - [Add a progress bar](#add-a-progress-bar)
-    - [Show placeholder when no notes](#show-placeholder-when-no-notes)
+  - [17. Firebase 9](#17-firebase-9)
+    - [17.1. Introduction to Firebase](#171-introduction-to-firebase)
+    - [17.2. Create a firebase project](#172-create-a-firebase-project)
+    - [17.3. Create app \& install firebase](#173-create-app--install-firebase)
+    - [17.4. Setup Firestore Database](#174-setup-firestore-database)
+    - [17.5. Connect to DB](#175-connect-to-db)
+  - [18. Firebase CRUD](#18-firebase-crud)
+    - [18.1. Get Notes from Firestore](#181-get-notes-from-firestore)
+    - [18.2. Get Notes in Realtime](#182-get-notes-in-realtime)
+    - [18.3. Add new note](#183-add-new-note)
+    - [18.4. Delete note](#184-delete-note)
+    - [18.5. Update note](#185-update-note)
+    - [18.6. Order notes by date](#186-order-notes-by-date)
+    - [18.7. Display Date on Note](#187-display-date-on-note)
+    - [18.8. Add a progress bar](#188-add-a-progress-bar)
+    - [18.9. Show placeholder when no notes](#189-show-placeholder-when-no-notes)
 
 ## 1. Introduction
 
@@ -3171,9 +3171,9 @@ onUnmounted(() => {
 </script>
 ```
 
-## Firebase 9
+## 17. Firebase 9
 
-### Introduction to Firebase
+### 17.1. Introduction to Firebase
 
 Firebase is an all in one backend solution from Google. It makes it
 really easy for us to add an out of the box backend to our app without
@@ -3184,7 +3184,7 @@ It gives us a realtime database and there are two databases available:
 - The cloud store database
 - The realtime database
 
-### Create a firebase project
+### 17.2. Create a firebase project
 
 - Go to firebase
 - Get started
@@ -3193,7 +3193,7 @@ It gives us a realtime database and there are two databases available:
 - Disable Google analytics
 - Wait a couple of minutes
 
-### Create app & install firebase
+### 17.3. Create app & install firebase
 
 Create an app
 
@@ -3224,7 +3224,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 ```
 
-### Setup Firestore Database
+### 17.4. Setup Firestore Database
 
 Setup
 
@@ -3239,7 +3239,7 @@ contains `documents`
 - Create new `collection` called `notes`
 - Add some `documents`
 
-### Connect to DB
+### 17.5. Connect to DB
 
 [Read docs](https://firebase.google.com/docs/firestore?authuser=0&hl=en)
 
@@ -3272,9 +3272,9 @@ Setup `db` in `store`
 import { db } from "@/js/firebase";
 ```
 
-## Firebase CRUD
+## 18. Firebase CRUD
 
-### Get Notes from Firestore
+### 18.1. Get Notes from Firestore
 
 Set up `vite.config.js`
 
@@ -3360,7 +3360,7 @@ onMounted(() => {
 </script>
 ```
 
-### Get Notes in Realtime
+### 18.2. Get Notes in Realtime
 
 ```js
 const getNotesRealtime = () => {
@@ -3383,7 +3383,7 @@ const getNotesRealtime = () => {
 };
 ```
 
-### Add new note
+### 18.3. Add new note
 
 ```js
 // auto generated id
@@ -3398,7 +3398,7 @@ const addNote = async (newNote) => {
 };
 ```
 
-### Delete note
+### 18.4. Delete note
 
 ```js
 const deleteNote = async (note) => {
@@ -3406,7 +3406,7 @@ const deleteNote = async (note) => {
 };
 ```
 
-### Update note
+### 18.5. Update note
 
 ```js
 const updateNote = async (id, content) => {
@@ -3416,7 +3416,7 @@ const updateNote = async (id, content) => {
 };
 ```
 
-### Order notes by date
+### 18.6. Order notes by date
 
 ```js
 const getNotesRealtime = () => {
@@ -3440,7 +3440,7 @@ const getNotesRealtime = () => {
 };
 ```
 
-### Display Date on Note
+### 18.7. Display Date on Note
 
 Using `useDateFormat` composable from `@vueuse/core`
 
@@ -3453,7 +3453,7 @@ const dateFormatted = computed(() => {
 });
 ```
 
-### Add a progress bar
+### 18.8. Add a progress bar
 
 ```vue
 <template>
@@ -3468,7 +3468,7 @@ const dateFormatted = computed(() => {
 </template>
 ```
 
-### Show placeholder when no notes
+### 18.9. Show placeholder when no notes
 
 ```vue
 <template>
