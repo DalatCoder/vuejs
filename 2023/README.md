@@ -94,24 +94,24 @@
     - [18.7. Display Date on Note](#187-display-date-on-note)
     - [18.8. Add a progress bar](#188-add-a-progress-bar)
     - [18.9. Show placeholder when no notes](#189-show-placeholder-when-no-notes)
-  - [Firebase Authentication](#firebase-authentication)
-    - [Login \& Register page](#login--register-page)
-    - [Firestore authentication \& auth store](#firestore-authentication--auth-store)
-    - [Register user](#register-user)
-    - [Logout user](#logout-user)
-    - [Login user](#login-user)
-    - [Listen for Auth changes \& Store user data](#listen-for-auth-changes--store-user-data)
-    - [Conditional display logout button](#conditional-display-logout-button)
-    - [Redirect user on auth changes](#redirect-user-on-auth-changes)
-  - [Firebase: Multiple users](#firebase-multiple-users)
-    - [Restructure database for multiple users](#restructure-database-for-multiple-users)
-    - [Setup refs for multiple users](#setup-refs-for-multiple-users)
-    - [Clear notes array when user log out](#clear-notes-array-when-user-log-out)
-    - [Unsubscribe from the listener when user log out](#unsubscribe-from-the-listener-when-user-log-out)
-  - [Firebase: Security \& Hosting](#firebase-security--hosting)
-    - [Navigation guards](#navigation-guards)
-    - [Firestore security rules](#firestore-security-rules)
-    - [Hosting](#hosting)
+  - [19. Firebase Authentication](#19-firebase-authentication)
+    - [19.1. Login \& Register page](#191-login--register-page)
+    - [19.2. Firestore authentication \& auth store](#192-firestore-authentication--auth-store)
+    - [19.3. Register user](#193-register-user)
+    - [19.4. Logout user](#194-logout-user)
+    - [19.5. Login user](#195-login-user)
+    - [19.6. Listen for Auth changes \& Store user data](#196-listen-for-auth-changes--store-user-data)
+    - [19.7. Conditional display logout button](#197-conditional-display-logout-button)
+    - [19.8. Redirect user on auth changes](#198-redirect-user-on-auth-changes)
+  - [20. Firebase: Multiple users](#20-firebase-multiple-users)
+    - [20.1. Restructure database for multiple users](#201-restructure-database-for-multiple-users)
+    - [20.2. Setup refs for multiple users](#202-setup-refs-for-multiple-users)
+    - [20.3. Clear notes array when user log out](#203-clear-notes-array-when-user-log-out)
+    - [20.4. Unsubscribe from the listener when user log out](#204-unsubscribe-from-the-listener-when-user-log-out)
+  - [21. Firebase: Security \& Hosting](#21-firebase-security--hosting)
+    - [21.1. Navigation guards](#211-navigation-guards)
+    - [21.2. Firestore security rules](#212-firestore-security-rules)
+    - [21.3. Hosting](#213-hosting)
 
 ## 1. Introduction
 
@@ -3508,9 +3508,9 @@ const dateFormatted = computed(() => {
 </template>
 ```
 
-## Firebase Authentication
+## 19. Firebase Authentication
 
-### Login & Register page
+### 19.1. Login & Register page
 
 Setup routers
 
@@ -3606,7 +3606,7 @@ const formTitle = computed(() => {
 </style>
 ```
 
-### Firestore authentication & auth store
+### 19.2. Firestore authentication & auth store
 
 Setup auth
 
@@ -3650,7 +3650,7 @@ import { auth } from "@/js/firebase";
 export const useAuthStore = defineStore("auth", () => {});
 ```
 
-### Register user
+### 19.3. Register user
 
 ```js
 import { defineStore } from "pinia";
@@ -3682,7 +3682,7 @@ export const useAuthStore = defineStore("auth", () => {
 });
 ```
 
-### Logout user
+### 19.4. Logout user
 
 ```js
 import { defineStore } from "pinia";
@@ -3703,7 +3703,7 @@ export const useAuthStore = defineStore("auth", () => {
 });
 ```
 
-### Login user
+### 19.5. Login user
 
 ```js
 import { defineStore } from "pinia";
@@ -3729,7 +3729,7 @@ export const useAuthStore = defineStore("auth", () => {
 });
 ```
 
-### Listen for Auth changes & Store user data
+### 19.6. Listen for Auth changes & Store user data
 
 Listen for auth changes and save user data in store
 
@@ -3787,7 +3787,7 @@ onMounted(() => {
 </script>
 ```
 
-### Conditional display logout button
+### 19.7. Conditional display logout button
 
 ```vue
 <template>
@@ -3802,7 +3802,7 @@ onMounted(() => {
 </template>
 ```
 
-### Redirect user on auth changes
+### 19.8. Redirect user on auth changes
 
 We can't actually access vue-router by default in `pinia` store. But we
 can make the router available by using a plugin.
@@ -3881,13 +3881,13 @@ export const useAuthStore = defineStore("auth", () => {
 });
 ```
 
-## Firebase: Multiple users
+## 20. Firebase: Multiple users
 
-### Restructure database for multiple users
+### 20.1. Restructure database for multiple users
 
 Add `userId` to each collection
 
-### Setup refs for multiple users
+### 20.2. Setup refs for multiple users
 
 Setup `init` function to save `userId` on `notesStore`
 
@@ -4033,7 +4033,7 @@ onMounted(() => {
 </style>
 ```
 
-### Clear notes array when user log out
+### 20.3. Clear notes array when user log out
 
 ```js
 import { defineStore } from "pinia";
@@ -4080,7 +4080,7 @@ export const useAuthStore = defineStore("auth", () => {
 });
 ```
 
-### Unsubscribe from the listener when user log out
+### 20.4. Unsubscribe from the listener when user log out
 
 ```js
 import { defineStore } from "pinia";
@@ -4163,9 +4163,9 @@ export const useNotesStore = defineStore("notes", () => {
 });
 ```
 
-## Firebase: Security & Hosting
+## 21. Firebase: Security & Hosting
 
-### Navigation guards
+### 21.1. Navigation guards
 
 Now, even if the user is logged out, they can still get to the notes page
 where they are left with an empty screen.
@@ -4214,7 +4214,7 @@ router.beforeEach((to, from) => {
 export default router;
 ```
 
-### Firestore security rules
+### 21.2. Firestore security rules
 
 - Click firestore database
 - Enter rules tab
@@ -4261,7 +4261,7 @@ service cloud.firestore {
 }
 ```
 
-### Hosting
+### 21.3. Hosting
 
 - Go to firebase console
 - Choose hosting
