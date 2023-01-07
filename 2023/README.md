@@ -108,6 +108,8 @@
     - [Setup refs for multiple users](#setup-refs-for-multiple-users)
     - [Clear notes array when user log out](#clear-notes-array-when-user-log-out)
     - [Unsubscribe from the listener when user log out](#unsubscribe-from-the-listener-when-user-log-out)
+  - [Firebase: Security \& Hosting](#firebase-security--hosting)
+    - [Navigation guards](#navigation-guards)
 
 ## 1. Introduction
 
@@ -4157,4 +4159,55 @@ export const useNotesStore = defineStore("notes", () => {
     totalCharactersCount,
   };
 });
+```
+
+## Firebase: Security & Hosting
+
+### Navigation guards
+
+Now, even if the user is logged out, they can still get to the notes page
+where they are left with an empty screen.
+
+Navigation guards allow us to `hook` into a `router`, and as the `user` tries to
+navigate from one route to another route. We can either allow them to get the
+route or we can stop them and then redirect them somewhere else depending
+on certain criteria.
+
+[Read docs](https://router.vuejs.org/guide/advanced/navigation-guards.html)
+
+```js
+import { createRouter, createWebHashHistory } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+
+const routes = [
+  {
+    path: "/auth",
+    name: "auth",
+    component: () => import("@/views/AuthView.vue"),
+  },
+];
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
+
+/**
+ * Navigation guards
+ */
+router.beforeEach((to, from) => {
+  const authStore = useAuthStore();
+
+  if (!authStore.user && to.name !== "auth") {
+    return {
+      name: "auth",
+    };
+  }
+
+  if (authStore.user && to.name === "auth") {
+    return false; // go back
+  }
+});
+
+export default router;
 ```
