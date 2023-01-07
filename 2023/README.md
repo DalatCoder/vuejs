@@ -101,6 +101,7 @@
     - [Logout user](#logout-user)
     - [Login user](#login-user)
     - [Listen for Auth changes \& Store user data](#listen-for-auth-changes--store-user-data)
+    - [Conditional display logout button](#conditional-display-logout-button)
 
 ## 1. Introduction
 
@@ -3774,4 +3775,19 @@ onMounted(() => {
   authStore.init();
 });
 </script>
+```
+
+### Conditional display logout button
+
+```vue
+<template>
+  <div class="navbar-end">
+    <a v-if="authStore.user" class="navbar-item">
+      Hello {{ authStore.user.email }}
+    </a>
+    <a v-if="authStore.user" @click.prevent="handleLogout" class="navbar-item">
+      Log out
+    </a>
+  </div>
+</template>
 ```

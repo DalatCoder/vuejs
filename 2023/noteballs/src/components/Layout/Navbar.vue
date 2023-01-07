@@ -26,7 +26,7 @@
         :class="{ 'is-active': showMobileNav }"
         ref="navbarMenuRef"
       >
-        <div class="navbar-end">
+        <div class="navbar-start">
           <RouterLink
             @click="showMobileNav = false"
             to="/"
@@ -43,7 +43,18 @@
           >
             Stats
           </RouterLink>
-          <a @click.prevent="authStore.logoutUser" class="navbar-item">Log out</a>
+        </div>
+        <div class="navbar-end">
+          <a v-if="authStore.user" class="navbar-item">
+            Hello {{ authStore.user.email }}
+          </a>
+          <a
+            v-if="authStore.user"
+            @click.prevent="handleLogout"
+            class="navbar-item"
+          >
+            Log out
+          </a>
         </div>
       </div>
     </div>
@@ -80,6 +91,14 @@ onClickOutside(
     ignore: [navbarBurgerRef],
   }
 );
+
+/**
+ * logout
+ */
+const handleLogout = () => {
+  authStore.logoutUser();
+  showMobileNav.value = false;
+};
 </script>
 
 <style>
