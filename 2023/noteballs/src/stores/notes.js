@@ -31,6 +31,7 @@ export const useNotesStore = defineStore("notes", () => {
     await addDoc(notesCollectionRef, {
       content: newNote.content,
       createdAt: new Date().getTime(),
+      userId,
     });
   };
 
@@ -40,7 +41,12 @@ export const useNotesStore = defineStore("notes", () => {
 
   const getNotes = async () => {
     notesLoaded.value = false;
-    const querySnapshot = await getDocs(notesCollectionRef);
+
+    const w = where("userId", "==", userId);
+    const o = orderBy("createdAt", "desc");
+    const q = query(notesCollectionRef, w, o);
+
+    const querySnapshot = await getDocs(q);
 
     const data = [];
     querySnapshot.forEach((doc) => {
@@ -48,6 +54,7 @@ export const useNotesStore = defineStore("notes", () => {
         id: doc.id,
         content: doc.data().content,
         createdAt: doc.data().createdAt,
+        userId: doc.data().userId,
       });
     });
 
@@ -57,7 +64,9 @@ export const useNotesStore = defineStore("notes", () => {
 
   const getNotesRealtime = () => {
     const w = where("userId", "==", userId);
-    const q = query(notesCollectionRef, w, orderBy("createdAt", "desc"));
+    const o = orderBy("createdAt", "desc");
+    const q = query(notesCollectionRef, w, o);
+
     notesLoaded.value = false;
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -67,6 +76,7 @@ export const useNotesStore = defineStore("notes", () => {
           id: doc.id,
           content: doc.data().content,
           createdAt: doc.data().createdAt,
+          userId: doc.data().userId,
         });
       });
 
@@ -91,6 +101,10 @@ export const useNotesStore = defineStore("notes", () => {
     });
   };
 
+  const clearNotes = () => {
+    notes.value = [];
+  };
+
   const totalNotesCount = computed(() => notes.value.length);
   const totalCharactersCount = computed(() =>
     notes.value.reduce((acc, cur) => acc + cur.content.length, 0)
@@ -106,6 +120,7 @@ export const useNotesStore = defineStore("notes", () => {
     deleteNote,
     getNoteById,
     updateNote,
+    clearNotes,
     totalNotesCount,
     totalCharactersCount,
   };

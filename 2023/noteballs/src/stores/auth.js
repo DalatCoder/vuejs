@@ -17,8 +17,9 @@ export const useAuthStore = defineStore("auth", () => {
 
   const init = () => {
     onAuthStateChanged(auth, (u) => {
+      const notesStore = useNotesStore();
+
       if (u) {
-        const notesStore = useNotesStore();
         notesStore.init(u);
 
         user.value = {
@@ -31,6 +32,7 @@ export const useAuthStore = defineStore("auth", () => {
         });
       } else {
         user.value = null;
+        notesStore.clearNotes();
 
         router.push({
           name: "auth",

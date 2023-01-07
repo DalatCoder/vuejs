@@ -106,6 +106,7 @@
   - [Firebase: Multiple users](#firebase-multiple-users)
     - [Restructure database for multiple users](#restructure-database-for-multiple-users)
     - [Setup refs for multiple users](#setup-refs-for-multiple-users)
+    - [Clear notes array when user log out](#clear-notes-array-when-user-log-out)
 
 ## 1. Introduction
 
@@ -4025,4 +4026,51 @@ onMounted(() => {
 <style>
 @import "bulma/css/bulma.min.css";
 </style>
+```
+
+### Clear notes array when user log out
+
+```js
+import { defineStore } from "pinia";
+import { onAuthStateChanged } from "firebase/auth";
+
+import { auth } from "@/js/firebase";
+import { ref } from "vue";
+
+import router from "@/routers";
+import { useNotesStore } from "@/stores/notes";
+
+export const useAuthStore = defineStore("auth", () => {
+  const user = ref(null);
+
+  const init = () => {
+    onAuthStateChanged(auth, (u) => {
+      const notesStore = useNotesStore();
+
+      if (u) {
+        notesStore.init(u);
+
+        user.value = {
+          id: u.uid,
+          email: u.email,
+        };
+
+        router.push({
+          name: "notes",
+        });
+      } else {
+        user.value = null;
+        notesStore.clearNotes();
+
+        router.push({
+          name: "auth",
+        });
+      }
+    });
+  };
+
+  return {
+    init,
+  };
+});
 ```
