@@ -102,6 +102,7 @@
     - [Login user](#login-user)
     - [Listen for Auth changes \& Store user data](#listen-for-auth-changes--store-user-data)
     - [Conditional display logout button](#conditional-display-logout-button)
+    - [Redirect user on auth changes](#redirect-user-on-auth-changes)
 
 ## 1. Introduction
 
@@ -3790,4 +3791,83 @@ onMounted(() => {
     </a>
   </div>
 </template>
+```
+
+### Redirect user on auth changes
+
+We can't actually access vue-router by default in `pinia` store. But we
+can make the router available by using a plugin.
+
+```js
+// @/main.js
+
+import { createApp, markRaw } from "vue";
+import { createPinia } from "pinia";
+import App from "./App.vue";
+import router from "./routers";
+
+const pinia = createPinia();
+
+pinia.use(({ store }) => {
+  // markraw: make thing non-reactive
+  store.router = markRaw(router);
+});
+
+createApp(App).use(pinia).use(router).mount("#app");
+```
+
+Inside `pinia` store, we can access the `router` through `this.router`
+
+However, with the `setup syntax`, we can use `useRoute` inside `pinia` store.
+
+```js
+export const useAuthStore = defineStore("auth", () => {
+  const user = ref(null);
+  const router = useRouter();
+
+  return {
+    user,
+  };
+});
+```
+
+Or just import the `router` from `@/routers`
+
+```js
+import { defineStore } from "pinia";
+import { onAuthStateChanged } from "firebase/auth";
+
+import { auth } from "@/js/firebase";
+import { ref } from "vue";
+
+import router from "@/routers";
+
+export const useAuthStore = defineStore("auth", () => {
+  const user = ref(null);
+
+  const init = () => {
+    onAuthStateChanged(auth, (u) => {
+      if (u) {
+        user.value = {
+          id: u.uid,
+          email: u.email,
+        };
+
+        router.push({
+          name: "notes",
+        });
+      } else {
+        user.value = null;
+
+        router.push({
+          name: "auth",
+        });
+      }
+    });
+  };
+
+  return {
+    user,
+  };
+});
 ```

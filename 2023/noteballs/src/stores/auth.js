@@ -9,6 +9,8 @@ import {
 import { auth } from "@/js/firebase";
 import { ref } from "vue";
 
+import router from "@/routers";
+
 export const useAuthStore = defineStore("auth", () => {
   const user = ref(null);
 
@@ -19,8 +21,16 @@ export const useAuthStore = defineStore("auth", () => {
           id: u.uid,
           email: u.email,
         };
+
+        router.push({
+          name: "notes",
+        });
       } else {
         user.value = null;
+
+        router.push({
+          name: "auth",
+        });
       }
     });
   };
