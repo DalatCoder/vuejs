@@ -33,6 +33,7 @@ export const useAuthStore = defineStore("auth", () => {
       } else {
         user.value = null;
         notesStore.clearNotes();
+        notesStore.unsubscribeListener();
 
         router.push({
           name: "auth",

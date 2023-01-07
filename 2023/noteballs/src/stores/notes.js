@@ -64,13 +64,6 @@ export const useNotesStore = defineStore("notes", () => {
   };
 
   const getNotesRealtime = () => {
-    /**
-     * unsubscribe any active listener
-     */
-    if (unsubscribeGetNotesSnapshot) {
-      unsubscribeGetNotesSnapshot();
-    }
-
     const w = where("userId", "==", userId);
     const o = orderBy("createdAt", "desc");
     const q = query(notesCollectionRef, w, o);
@@ -110,6 +103,15 @@ export const useNotesStore = defineStore("notes", () => {
     notes.value = [];
   };
 
+  const unsubscribeListener = () => {
+    /**
+     * unsubscribe any active listener
+     */
+    if (unsubscribeGetNotesSnapshot) {
+      unsubscribeGetNotesSnapshot();
+    }
+  };
+
   const totalNotesCount = computed(() => notes.value.length);
   const totalCharactersCount = computed(() =>
     notes.value.reduce((acc, cur) => acc + cur.content.length, 0)
@@ -126,6 +128,7 @@ export const useNotesStore = defineStore("notes", () => {
     getNoteById,
     updateNote,
     clearNotes,
+    unsubscribeListener,
     totalNotesCount,
     totalCharactersCount,
   };
