@@ -103,6 +103,9 @@
     - [Listen for Auth changes \& Store user data](#listen-for-auth-changes--store-user-data)
     - [Conditional display logout button](#conditional-display-logout-button)
     - [Redirect user on auth changes](#redirect-user-on-auth-changes)
+  - [Firebase: Multiple users](#firebase-multiple-users)
+    - [Restructure database for multiple users](#restructure-database-for-multiple-users)
+    - [Setup refs for multiple users](#setup-refs-for-multiple-users)
 
 ## 1. Introduction
 
@@ -3870,4 +3873,156 @@ export const useAuthStore = defineStore("auth", () => {
     user,
   };
 });
+```
+
+## Firebase: Multiple users
+
+### Restructure database for multiple users
+
+Add `userId` to each collection
+
+### Setup refs for multiple users
+
+Setup `init` function to save `userId` on `notesStore`
+
+```js
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  doc,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  query,
+  orderBy,
+  where,
+} from "firebase/firestore";
+
+import { db } from "@/js/firebase";
+
+const notesCollectionRef = collection(db, "notes");
+let userId = "";
+
+export const useNotesStore = defineStore("notes", () => {
+  const notes = ref([]);
+  const notesLoaded = ref(false);
+
+  const init = (user) => {
+    userId = user.uid;
+    getNotesRealtime();
+  };
+
+  const getNotesRealtime = () => {
+    const w = where("userId", "==", userId);
+    const q = query(notesCollectionRef, w, orderBy("createdAt", "desc"));
+    notesLoaded.value = false;
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const data = [];
+      querySnapshot.forEach((doc) => {
+        data.push({
+          id: doc.id,
+          content: doc.data().content,
+          createdAt: doc.data().createdAt,
+        });
+      });
+
+      notes.value = data;
+
+      if (!notesLoaded.value) {
+        notesLoaded.value = true;
+      }
+    });
+
+    // stop listening
+    // unsubscribe()
+  };
+
+  return {
+    init,
+    getNotesRealtime,
+  };
+});
+```
+
+Invoke `notesStore` `init` function on `auth` changes to get `user`
+
+```js
+import { defineStore } from "pinia";
+import { onAuthStateChanged } from "firebase/auth";
+
+import { auth } from "@/js/firebase";
+import { ref } from "vue";
+
+import router from "@/routers";
+import { useNotesStore } from "@/stores/notes";
+
+export const useAuthStore = defineStore("auth", () => {
+  const user = ref(null);
+
+  const init = () => {
+    onAuthStateChanged(auth, (u) => {
+      if (u) {
+        const notesStore = useNotesStore();
+        notesStore.init(u);
+
+        user.value = {
+          id: u.uid,
+          email: u.email,
+        };
+
+        router.push({
+          name: "notes",
+        });
+      } else {
+        user.value = null;
+
+        router.push({
+          name: "auth",
+        });
+      }
+    });
+  };
+
+  return {
+    init,
+  };
+});
+```
+
+Invoke `authStore` `init` function on `root` component
+
+```vue
+<template>
+  <Navbar />
+
+  <div class="container is-max-desktop px-2 py-4">
+    <router-view />
+  </div>
+</template>
+
+<script setup>
+import Navbar from "@/components/Layout/Navbar.vue";
+import { useAuthStore } from "@/stores/auth";
+import { onMounted } from "@vue/runtime-core";
+
+/**
+ * store
+ */
+const authStore = useAuthStore();
+
+/**
+ * mounted
+ */
+onMounted(() => {
+  authStore.init();
+});
+</script>
+
+<style>
+@import "bulma/css/bulma.min.css";
+</style>
 ```

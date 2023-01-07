@@ -10,15 +10,22 @@ import {
   updateDoc,
   query,
   orderBy,
-  limit,
+  where,
 } from "firebase/firestore";
+
 import { db } from "@/js/firebase";
 
 const notesCollectionRef = collection(db, "notes");
+let userId = "";
 
 export const useNotesStore = defineStore("notes", () => {
   const notes = ref([]);
   const notesLoaded = ref(false);
+
+  const init = (user) => {
+    userId = user.uid;
+    getNotesRealtime();
+  };
 
   const addNote = async (newNote) => {
     await addDoc(notesCollectionRef, {
@@ -49,7 +56,8 @@ export const useNotesStore = defineStore("notes", () => {
   };
 
   const getNotesRealtime = () => {
-    const q = query(notesCollectionRef, orderBy("createdAt", "desc"));
+    const w = where("userId", "==", userId);
+    const q = query(notesCollectionRef, w, orderBy("createdAt", "desc"));
     notesLoaded.value = false;
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -91,6 +99,7 @@ export const useNotesStore = defineStore("notes", () => {
   return {
     notes,
     notesLoaded,
+    init,
     addNote,
     getNotes,
     getNotesRealtime,

@@ -10,6 +10,7 @@ import { auth } from "@/js/firebase";
 import { ref } from "vue";
 
 import router from "@/routers";
+import { useNotesStore } from "@/stores/notes";
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref(null);
@@ -17,6 +18,9 @@ export const useAuthStore = defineStore("auth", () => {
   const init = () => {
     onAuthStateChanged(auth, (u) => {
       if (u) {
+        const notesStore = useNotesStore();
+        notesStore.init(u);
+
         user.value = {
           id: u.uid,
           email: u.email,
