@@ -111,6 +111,7 @@
   - [Firebase: Security \& Hosting](#firebase-security--hosting)
     - [Navigation guards](#navigation-guards)
     - [Firestore security rules](#firestore-security-rules)
+    - [Hosting](#hosting)
 
 ## 1. Introduction
 
@@ -4259,3 +4260,11 @@ service cloud.firestore {
   }
 }
 ```
+
+### Hosting
+
+- Go to firebase console
+- Choose hosting
+- Get started
+- Install firebase cli: `npm instal l firebase-tools`
+- Login | Init | Deploy
