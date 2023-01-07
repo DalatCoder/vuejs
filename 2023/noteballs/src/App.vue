@@ -9,18 +9,21 @@
 <script setup>
 import Navbar from "@/components/Layout/Navbar.vue";
 import { useNotesStore } from "@/stores/notes";
+import { useAuthStore } from "@/stores/auth";
 import { onMounted } from "@vue/runtime-core";
 
 /**
  * store
  */
 const notesStore = useNotesStore();
+const authStore = useAuthStore();
 
 /**
  * mounted
  */
 onMounted(() => {
   notesStore.getNotesRealtime();
+  authStore.init();
 });
 </script>
 

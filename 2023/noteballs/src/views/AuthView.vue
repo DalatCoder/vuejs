@@ -94,7 +94,7 @@ const onSubmit = () => {
   if (register.value) {
     authStore.registerUser(credentials);
   } else {
-    console.log("login user");
+    authStore.loginUser(credentials);
   }
 };
 </script>

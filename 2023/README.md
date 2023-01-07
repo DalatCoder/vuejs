@@ -99,6 +99,8 @@
     - [Firestore authentication \& auth store](#firestore-authentication--auth-store)
     - [Register user](#register-user)
     - [Logout user](#logout-user)
+    - [Login user](#login-user)
+    - [Listen for Auth changes \& Store user data](#listen-for-auth-changes--store-user-data)
 
 ## 1. Introduction
 
@@ -3688,4 +3690,88 @@ export const useAuthStore = defineStore("auth", () => {
     logoutUser,
   };
 });
+```
+
+### Login user
+
+```js
+import { defineStore } from "pinia";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+import { auth } from "@/js/firebase";
+
+export const useAuthStore = defineStore("auth", () => {
+  const loginUser = (credentials) => {
+    signInWithEmailAndPassword(auth, credentials.email, credentials.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  return {
+    loginUser,
+  };
+});
+```
+
+### Listen for Auth changes & Store user data
+
+Listen for auth changes and save user data in store
+
+```js
+import { defineStore } from "pinia";
+import { onAuthStateChanged } from "firebase/auth";
+
+import { auth } from "@/js/firebase";
+import { ref } from "vue";
+
+export const useAuthStore = defineStore("auth", () => {
+  const user = ref(null);
+
+  const init = () => {
+    onAuthStateChanged(auth, (u) => {
+      if (u) {
+        user.value = {
+          id: u.uid,
+          email: u.email,
+        };
+      } else {
+        user.value = null;
+      }
+    });
+  };
+
+  return {
+    init,
+  };
+});
+```
+
+Invoke `init` function on `root` component (`App`)
+
+```vue
+<script setup>
+import Navbar from "@/components/Layout/Navbar.vue";
+import { useNotesStore } from "@/stores/notes";
+import { useAuthStore } from "@/stores/auth";
+import { onMounted } from "@vue/runtime-core";
+
+/**
+ * store
+ */
+const notesStore = useNotesStore();
+const authStore = useAuthStore();
+
+/**
+ * mounted
+ */
+onMounted(() => {
+  notesStore.getNotesRealtime();
+  authStore.init();
+});
+</script>
 ```
