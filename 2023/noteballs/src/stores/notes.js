@@ -17,6 +17,7 @@ import { db } from "@/js/firebase";
 
 const notesCollectionRef = collection(db, "notes");
 let userId = "";
+let unsubscribeGetNotesSnapshot = null;
 
 export const useNotesStore = defineStore("notes", () => {
   const notes = ref([]);
@@ -63,13 +64,20 @@ export const useNotesStore = defineStore("notes", () => {
   };
 
   const getNotesRealtime = () => {
+    /**
+     * unsubscribe any active listener
+     */
+    if (unsubscribeGetNotesSnapshot) {
+      unsubscribeGetNotesSnapshot();
+    }
+
     const w = where("userId", "==", userId);
     const o = orderBy("createdAt", "desc");
     const q = query(notesCollectionRef, w, o);
 
     notesLoaded.value = false;
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    unsubscribeGetNotesSnapshot = onSnapshot(q, (querySnapshot) => {
       const data = [];
       querySnapshot.forEach((doc) => {
         data.push({
@@ -86,9 +94,6 @@ export const useNotesStore = defineStore("notes", () => {
         notesLoaded.value = true;
       }
     });
-
-    // stop listening
-    // unsubscribe()
   };
 
   const getNoteById = (id) => {

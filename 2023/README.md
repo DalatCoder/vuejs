@@ -107,6 +107,7 @@
     - [Restructure database for multiple users](#restructure-database-for-multiple-users)
     - [Setup refs for multiple users](#setup-refs-for-multiple-users)
     - [Clear notes array when user log out](#clear-notes-array-when-user-log-out)
+    - [Unsubscribe from the listener when user log out](#unsubscribe-from-the-listener-when-user-log-out)
 
 ## 1. Introduction
 
@@ -4071,6 +4072,89 @@ export const useAuthStore = defineStore("auth", () => {
 
   return {
     init,
+  };
+});
+```
+
+### Unsubscribe from the listener when user log out
+
+```js
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  doc,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  query,
+  orderBy,
+  where,
+} from "firebase/firestore";
+
+import { db } from "@/js/firebase";
+
+const notesCollectionRef = collection(db, "notes");
+let userId = "";
+let unsubscribeGetNotesSnapshot = null;
+
+export const useNotesStore = defineStore("notes", () => {
+  const notes = ref([]);
+  const notesLoaded = ref(false);
+
+  const init = (user) => {
+    userId = user.uid;
+    getNotesRealtime();
+  };
+
+  const getNotesRealtime = () => {
+    /**
+     * unsubscribe any active listener
+     */
+    if (unsubscribeGetNotesSnapshot) {
+      unsubscribeGetNotesSnapshot();
+    }
+
+    const w = where("userId", "==", userId);
+    const o = orderBy("createdAt", "desc");
+    const q = query(notesCollectionRef, w, o);
+
+    notesLoaded.value = false;
+
+    unsubscribeGetNotesSnapshot = onSnapshot(q, (querySnapshot) => {
+      const data = [];
+      querySnapshot.forEach((doc) => {
+        data.push({
+          id: doc.id,
+          content: doc.data().content,
+          createdAt: doc.data().createdAt,
+          userId: doc.data().userId,
+        });
+      });
+
+      notes.value = data;
+
+      if (!notesLoaded.value) {
+        notesLoaded.value = true;
+      }
+    });
+  };
+
+  return {
+    notes,
+    notesLoaded,
+    init,
+    addNote,
+    getNotes,
+    getNotesRealtime,
+    deleteNote,
+    getNoteById,
+    updateNote,
+    clearNotes,
+    totalNotesCount,
+    totalCharactersCount,
   };
 });
 ```
