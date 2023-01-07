@@ -110,6 +110,7 @@
     - [Unsubscribe from the listener when user log out](#unsubscribe-from-the-listener-when-user-log-out)
   - [Firebase: Security \& Hosting](#firebase-security--hosting)
     - [Navigation guards](#navigation-guards)
+    - [Firestore security rules](#firestore-security-rules)
 
 ## 1. Introduction
 
@@ -4210,4 +4211,48 @@ router.beforeEach((to, from) => {
 });
 
 export default router;
+```
+
+### Firestore security rules
+
+- Click firestore database
+- Enter rules tab
+
+Rule for test mode
+
+```txt
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if
+          request.time < timestamp.date(2023, 2, 5);
+    }
+  }
+}
+```
+
+Explains
+
+- `service cloud.firestore`: firestore service
+- `match /databases/{database}/documents`: apply for all documents
+- `match /{document=**}`: match single document
+- `allow read, write: if`: allow read and write permissions
+- `request.time < timestamp.date(2023, 2, 5)`: if request time less than 5-2-2023
+
+Final:
+
+- Only for authenticated user
+- Authenticated users only can access their own notes
+
+```txt
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if
+          request.auth != null && request.auth.uid == resource.data.userId;
+    }
+  }
+}
 ```

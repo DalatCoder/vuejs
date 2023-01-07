@@ -70,23 +70,33 @@ export const useNotesStore = defineStore("notes", () => {
 
     notesLoaded.value = false;
 
-    unsubscribeGetNotesSnapshot = onSnapshot(q, (querySnapshot) => {
-      const data = [];
-      querySnapshot.forEach((doc) => {
-        data.push({
-          id: doc.id,
-          content: doc.data().content,
-          createdAt: doc.data().createdAt,
-          userId: doc.data().userId,
+    unsubscribeGetNotesSnapshot = onSnapshot(
+      q,
+      (querySnapshot) => {
+        const data = [];
+        querySnapshot.forEach((doc) => {
+          data.push({
+            id: doc.id,
+            content: doc.data().content,
+            createdAt: doc.data().createdAt,
+            userId: doc.data().userId,
+          });
         });
-      });
 
-      notes.value = data;
+        notes.value = data;
 
-      if (!notesLoaded.value) {
-        notesLoaded.value = true;
+        if (!notesLoaded.value) {
+          notesLoaded.value = true;
+        }
+      },
+      (error) => {
+        if (!notesLoaded.value) {
+          notesLoaded.value = true;
+        }
+
+        console.log(error.message);
       }
-    });
+    );
   };
 
   const getNoteById = (id) => {
